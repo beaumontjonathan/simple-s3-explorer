@@ -1,5 +1,9 @@
 {
   "private": true,
+  "scripts": {
+    "prettier:check": "prettier . -c",
+    "prettier:write": "prettier . -w"
+  },
   "dependencies": {
     "prettier": "^2.8.7"
   }
