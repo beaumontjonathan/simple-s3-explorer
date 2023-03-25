@@ -7,6 +7,7 @@ import { Mutation } from './Mutation';
 import { Bucket } from './Bucket';
 import { ListedBucket } from './ListedBucket';
 import { BucketObject } from './BucketObject';
+import { ListedBucketObject } from './ListedBucketObject';
 
 const resolvers: Resolvers = {
   Query,
@@ -14,6 +15,7 @@ const resolvers: Resolvers = {
   Bucket,
   ListedBucket,
   BucketObject,
+  ListedBucketObject,
 };
 
 const typeDefs = readFileSync(

@@ -3,6 +3,7 @@ import {
   Bucket as BucketGraphQL,
   ListedBucket as ListedBucketGraphQL,
   BucketObject as BucketObjectGraphQL,
+  ListedBucketObject as ListedBucketObjectGraphQL,
 } from '../schema/types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -30,8 +31,13 @@ export type Scalars = {
 export type Bucket = {
   __typename?: 'Bucket';
   name: Scalars['String'];
-  objects: Array<BucketObject>;
+  object: Maybe<BucketObject>;
+  objects: Array<ListedBucketObject>;
   region: Scalars['String'];
+};
+
+export type BucketObjectArgs = {
+  objectKey: Scalars['String'];
 };
 
 export type BucketObjectsArgs = {
@@ -40,13 +46,26 @@ export type BucketObjectsArgs = {
 
 export type BucketObject = {
   __typename?: 'BucketObject';
+  etag: Scalars['String'];
   key: Scalars['String'];
+  lastModified: Scalars['String'];
+  size: Scalars['Int'];
+  storageClass: Scalars['String'];
 };
 
 export type ListedBucket = {
   __typename?: 'ListedBucket';
   bucket: Bucket;
   name: Scalars['String'];
+};
+
+export type ListedBucketObject = {
+  __typename?: 'ListedBucketObject';
+  etag: Scalars['String'];
+  key: Scalars['String'];
+  lastModified: Scalars['String'];
+  size: Scalars['Int'];
+  storageClass: Scalars['String'];
 };
 
 export type Mutation = {
@@ -181,6 +200,7 @@ export type ResolversTypes = {
   BucketObject: ResolverTypeWrapper<BucketObjectGraphQL>;
   Int: ResolverTypeWrapper<unknown>;
   ListedBucket: ResolverTypeWrapper<ListedBucketGraphQL>;
+  ListedBucketObject: ResolverTypeWrapper<ListedBucketObjectGraphQL>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<unknown>;
@@ -193,6 +213,7 @@ export type ResolversParentTypes = {
   BucketObject: BucketObjectGraphQL;
   Int: unknown;
   ListedBucket: ListedBucketGraphQL;
+  ListedBucketObject: ListedBucketObjectGraphQL;
   Mutation: {};
   Query: {};
   String: unknown;
@@ -203,8 +224,14 @@ export type BucketResolvers<
   ParentType extends ResolversParentTypes['Bucket'] = ResolversParentTypes['Bucket']
 > = {
   name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  object: Resolver<
+    Maybe<ResolversTypes['BucketObject']>,
+    ParentType,
+    ContextType,
+    RequireFields<BucketObjectArgs, 'objectKey'>
+  >;
   objects: Resolver<
-    Array<ResolversTypes['BucketObject']>,
+    Array<ResolversTypes['ListedBucketObject']>,
     ParentType,
     ContextType,
     Partial<BucketObjectsArgs>
@@ -217,7 +244,11 @@ export type BucketObjectResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['BucketObject'] = ResolversParentTypes['BucketObject']
 > = {
+  etag: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastModified: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  size: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  storageClass: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -227,6 +258,18 @@ export type ListedBucketResolvers<
 > = {
   bucket: Resolver<ResolversTypes['Bucket'], ParentType, ContextType>;
   name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ListedBucketObjectResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ListedBucketObject'] = ResolversParentTypes['ListedBucketObject']
+> = {
+  etag: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastModified: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  size: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  storageClass: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -260,6 +303,7 @@ export type Resolvers<ContextType = any> = {
   Bucket: BucketResolvers<ContextType>;
   BucketObject: BucketObjectResolvers<ContextType>;
   ListedBucket: ListedBucketResolvers<ContextType>;
+  ListedBucketObject: ListedBucketObjectResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
 };

@@ -1,6 +1,6 @@
-import { BucketObjectResolvers } from '../generated/graphql';
+import { ListedBucketObjectResolvers } from '../generated/graphql';
 
-export const BucketObject: BucketObjectResolvers = {
+export const ListedBucketObject: ListedBucketObjectResolvers = {
   key: ({ key }) => key,
   lastModified: ({ lastModified }) => lastModified,
   etag: ({ etag }) => etag,

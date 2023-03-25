@@ -6,6 +6,7 @@ import { environment } from './relay';
 import './index.css';
 import Buckets from './Buckets';
 import Bucket from './Bucket';
+import BucketObject from './BucketObject';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,14 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback="Loading...">
         <Bucket />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/object/:bucketName',
+    element: (
+      <Suspense fallback="Loading...">
+        <BucketObject />
       </Suspense>
     ),
   },

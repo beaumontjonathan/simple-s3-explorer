@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { graphql, useLazyLoadQuery } from 'react-relay';
 import { BucketQuery } from './__generated__/BucketQuery.graphql';
 
@@ -14,6 +14,10 @@ export default function Bucket() {
           region
           objects {
             key
+            etag
+            size
+            storageClass
+            lastModified
           }
         }
       }
@@ -36,7 +40,15 @@ export default function Bucket() {
       {bucket.name} {bucket.region}
       <ul>
         {bucket.objects.map((object) => (
-          <li key={object.key}>{object.key}</li>
+          <li key={object.key}>
+            <Link
+              to={`/object/${bucket.name}?objectKey=${encodeURIComponent(
+                object.key
+              )}`}
+            >
+              {object.key} {object.etag} {object.storageClass} {object.size}
+            </Link>
+          </li>
         ))}
       </ul>
     </div>

@@ -9,16 +9,29 @@ type ListedBucket {
   bucket: Bucket!
 }
 
-type Mutation {
-  never: String
-}
-
 type Bucket {
   name: String!
   region: String!
-  objects(first: Int): [BucketObject!]!
+  objects(first: Int): [ListedBucketObject!]!
+  object(objectKey: String!): BucketObject
+}
+
+type ListedBucketObject {
+  key: String!
+  lastModified: String!
+  etag: String!
+  size: Int!
+  storageClass: String!
 }
 
 type BucketObject {
   key: String!
+  lastModified: String!
+  etag: String!
+  size: Int!
+  storageClass: String!
+}
+
+type Mutation {
+  never: String
 }
