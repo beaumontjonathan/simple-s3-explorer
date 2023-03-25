@@ -1,6 +1,12 @@
 type Query {
   hello: String
-  buckets: [Bucket!]!
+  buckets(first: Int): [ListedBucket!]!
+  bucket(name: String!): Bucket
+}
+
+type ListedBucket {
+  name: String!
+  bucket: Bucket!
 }
 
 type Mutation {
@@ -9,4 +15,10 @@ type Mutation {
 
 type Bucket {
   name: String!
+  region: String!
+  objects(first: Int): [BucketObject!]!
+}
+
+type BucketObject {
+  key: String!
 }

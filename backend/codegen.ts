@@ -11,6 +11,8 @@ const tsResolversPluginConfig: TypeScriptResolversPluginConfig = {
   mapperTypeSuffix: 'GraphQL',
   mappers: {
     Bucket: '../schema/types#Bucket',
+    ListedBucket: '../schema/types#ListedBucket',
+    BucketObject: '../schema/types#BucketObject',
   },
 };
 

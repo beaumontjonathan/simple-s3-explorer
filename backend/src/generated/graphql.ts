@@ -1,5 +1,9 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { Bucket as BucketGraphQL } from '../schema/types';
+import {
+  Bucket as BucketGraphQL,
+  ListedBucket as ListedBucketGraphQL,
+  BucketObject as BucketObjectGraphQL,
+} from '../schema/types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -10,6 +14,9 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>;
 };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -23,6 +30,23 @@ export type Scalars = {
 export type Bucket = {
   __typename?: 'Bucket';
   name: Scalars['String'];
+  objects: Array<BucketObject>;
+  region: Scalars['String'];
+};
+
+export type BucketObjectsArgs = {
+  first: InputMaybe<Scalars['Int']>;
+};
+
+export type BucketObject = {
+  __typename?: 'BucketObject';
+  key: Scalars['String'];
+};
+
+export type ListedBucket = {
+  __typename?: 'ListedBucket';
+  bucket: Bucket;
+  name: Scalars['String'];
 };
 
 export type Mutation = {
@@ -32,8 +56,17 @@ export type Mutation = {
 
 export type Query = {
   __typename?: 'Query';
-  buckets: Array<Bucket>;
+  bucket: Maybe<Bucket>;
+  buckets: Array<ListedBucket>;
   hello: Maybe<Scalars['String']>;
+};
+
+export type QueryBucketArgs = {
+  name: Scalars['String'];
+};
+
+export type QueryBucketsArgs = {
+  first: InputMaybe<Scalars['Int']>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -145,6 +178,9 @@ export type DirectiveResolverFn<
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<unknown>;
   Bucket: ResolverTypeWrapper<BucketGraphQL>;
+  BucketObject: ResolverTypeWrapper<BucketObjectGraphQL>;
+  Int: ResolverTypeWrapper<unknown>;
+  ListedBucket: ResolverTypeWrapper<ListedBucketGraphQL>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<unknown>;
@@ -154,6 +190,9 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: unknown;
   Bucket: BucketGraphQL;
+  BucketObject: BucketObjectGraphQL;
+  Int: unknown;
+  ListedBucket: ListedBucketGraphQL;
   Mutation: {};
   Query: {};
   String: unknown;
@@ -163,6 +202,30 @@ export type BucketResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Bucket'] = ResolversParentTypes['Bucket']
 > = {
+  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  objects: Resolver<
+    Array<ResolversTypes['BucketObject']>,
+    ParentType,
+    ContextType,
+    Partial<BucketObjectsArgs>
+  >;
+  region: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BucketObjectResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BucketObject'] = ResolversParentTypes['BucketObject']
+> = {
+  key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ListedBucketResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ListedBucket'] = ResolversParentTypes['ListedBucket']
+> = {
+  bucket: Resolver<ResolversTypes['Bucket'], ParentType, ContextType>;
   name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -178,12 +241,25 @@ export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  buckets: Resolver<Array<ResolversTypes['Bucket']>, ParentType, ContextType>;
+  bucket: Resolver<
+    Maybe<ResolversTypes['Bucket']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBucketArgs, 'name'>
+  >;
+  buckets: Resolver<
+    Array<ResolversTypes['ListedBucket']>,
+    ParentType,
+    ContextType,
+    Partial<QueryBucketsArgs>
+  >;
   hello: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
   Bucket: BucketResolvers<ContextType>;
+  BucketObject: BucketObjectResolvers<ContextType>;
+  ListedBucket: ListedBucketResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
 };
