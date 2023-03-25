@@ -4,6 +4,8 @@ import {
   ListedBucket as ListedBucketGraphQL,
   BucketObject as BucketObjectGraphQL,
   ListedBucketObject as ListedBucketObjectGraphQL,
+  BucketObjectTag as BucketObjectTagGraphQL,
+  BucketObjectMetadataItem as BucketObjectMetadataItemGraphQL,
 } from '../schema/types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -49,8 +51,23 @@ export type BucketObject = {
   etag: Scalars['String'];
   key: Scalars['String'];
   lastModified: Scalars['String'];
+  metadata: Array<BucketObjectMetadataItem>;
   size: Scalars['Int'];
   storageClass: Scalars['String'];
+  tags: Array<BucketObjectTag>;
+};
+
+export type BucketObjectMetadataItem = {
+  __typename?: 'BucketObjectMetadataItem';
+  key: Scalars['String'];
+  userDefined: Scalars['Boolean'];
+  value: Scalars['String'];
+};
+
+export type BucketObjectTag = {
+  __typename?: 'BucketObjectTag';
+  key: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type ListedBucket = {
@@ -198,6 +215,8 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<unknown>;
   Bucket: ResolverTypeWrapper<BucketGraphQL>;
   BucketObject: ResolverTypeWrapper<BucketObjectGraphQL>;
+  BucketObjectMetadataItem: ResolverTypeWrapper<BucketObjectMetadataItemGraphQL>;
+  BucketObjectTag: ResolverTypeWrapper<BucketObjectTagGraphQL>;
   Int: ResolverTypeWrapper<unknown>;
   ListedBucket: ResolverTypeWrapper<ListedBucketGraphQL>;
   ListedBucketObject: ResolverTypeWrapper<ListedBucketObjectGraphQL>;
@@ -211,6 +230,8 @@ export type ResolversParentTypes = {
   Boolean: unknown;
   Bucket: BucketGraphQL;
   BucketObject: BucketObjectGraphQL;
+  BucketObjectMetadataItem: BucketObjectMetadataItemGraphQL;
+  BucketObjectTag: BucketObjectTagGraphQL;
   Int: unknown;
   ListedBucket: ListedBucketGraphQL;
   ListedBucketObject: ListedBucketObjectGraphQL;
@@ -247,8 +268,37 @@ export type BucketObjectResolvers<
   etag: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastModified: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  metadata: Resolver<
+    Array<ResolversTypes['BucketObjectMetadataItem']>,
+    ParentType,
+    ContextType
+  >;
   size: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   storageClass: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tags: Resolver<
+    Array<ResolversTypes['BucketObjectTag']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BucketObjectMetadataItemResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BucketObjectMetadataItem'] = ResolversParentTypes['BucketObjectMetadataItem']
+> = {
+  key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userDefined: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  value: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BucketObjectTagResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BucketObjectTag'] = ResolversParentTypes['BucketObjectTag']
+> = {
+  key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -302,6 +352,8 @@ export type QueryResolvers<
 export type Resolvers<ContextType = any> = {
   Bucket: BucketResolvers<ContextType>;
   BucketObject: BucketObjectResolvers<ContextType>;
+  BucketObjectMetadataItem: BucketObjectMetadataItemResolvers<ContextType>;
+  BucketObjectTag: BucketObjectTagResolvers<ContextType>;
   ListedBucket: ListedBucketResolvers<ContextType>;
   ListedBucketObject: ListedBucketObjectResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;

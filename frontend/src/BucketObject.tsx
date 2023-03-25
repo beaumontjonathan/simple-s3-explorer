@@ -28,6 +28,15 @@ export default function BucketObject() {
             size
             storageClass
             lastModified
+            tags {
+              key
+              value
+            }
+            metadata {
+              key
+              value
+              userDefined
+            }
           }
         }
       }
@@ -58,6 +67,42 @@ export default function BucketObject() {
       <div>{object.size}</div>
       <div>{object.storageClass}</div>
       <div>{object.lastModified}</div>
+      {object.tags.length === 0 ? null : (
+        <div>
+          Tags
+          <table>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+            {object.tags.map((tag) => (
+              <tr key={tag.key}>
+                <td>{tag.key}</td>
+                <td>{tag.value}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
+      )}
+      {object.metadata.length === 0 ? null : (
+        <div>
+          Metadata
+          <table>
+            <tr>
+              <th>Type</th>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+            {object.metadata.map((data) => (
+              <tr key={data.key}>
+                <td>{data.userDefined ? 'User defined' : 'System defined'}</td>
+                <td>{data.key}</td>
+                <td>{data.value}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
+      )}
     </div>
   );
 }

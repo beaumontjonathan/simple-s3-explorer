@@ -14,6 +14,8 @@ const tsResolversPluginConfig: TypeScriptResolversPluginConfig = {
     ListedBucket: '../schema/types#ListedBucket',
     BucketObject: '../schema/types#BucketObject',
     ListedBucketObject: '../schema/types#ListedBucketObject',
+    BucketObjectTag: '../schema/types#BucketObjectTag',
+    BucketObjectMetadataItem: '../schema/types#BucketObjectMetadataItem',
   },
 };
 

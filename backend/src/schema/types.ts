@@ -28,3 +28,14 @@ export type ListedBucketObject = {
   size: number;
   storageClass: ObjectStorageClass;
 };
+
+export type BucketObjectMetadataItem = {
+  key: string;
+  value: string;
+  userDefined: boolean;
+};
+
+export type BucketObjectTag = {
+  key: string;
+  value: string;
+};

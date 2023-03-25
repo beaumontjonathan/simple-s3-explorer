@@ -30,6 +30,19 @@ type BucketObject {
   etag: String!
   size: Int!
   storageClass: String!
+  metadata: [BucketObjectMetadataItem!]!
+  tags: [BucketObjectTag!]!
+}
+
+type BucketObjectMetadataItem {
+  key: String!
+  value: String!
+  userDefined: Boolean!
+}
+
+type BucketObjectTag {
+  key: String!
+  value: String!
 }
 
 type Mutation {
