@@ -7,6 +7,6 @@ export const Query: QueryResolvers = {
     const client = new S3Client({});
     const response = await client.send(new ListBucketsCommand({}));
     const { Buckets: buckets = [] } = response;
-    return buckets.flatMap(({ Name: name }) => name ? { name } : []);
+    return buckets.flatMap(({ Name: name }) => (name ? { name } : []));
   },
 };
