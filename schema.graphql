@@ -1,7 +1,12 @@
 type Query {
   hello: String
+  buckets: [Bucket!]!
 }
 
 type Mutation {
   never: String
+}
+
+type Bucket {
+  name: String!
 }

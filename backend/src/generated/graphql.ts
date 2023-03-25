@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { Bucket as BucketGraphQL } from '../schema/types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -19,6 +20,11 @@ export type Scalars = {
   Float: number;
 };
 
+export type Bucket = {
+  __typename?: 'Bucket';
+  name: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   never: Maybe<Scalars['String']>;
@@ -26,6 +32,7 @@ export type Mutation = {
 
 export type Query = {
   __typename?: 'Query';
+  buckets: Array<Bucket>;
   hello: Maybe<Scalars['String']>;
 };
 
@@ -137,6 +144,7 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<unknown>;
+  Bucket: ResolverTypeWrapper<BucketGraphQL>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<unknown>;
@@ -145,9 +153,18 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: unknown;
+  Bucket: BucketGraphQL;
   Mutation: {};
   Query: {};
   String: unknown;
+};
+
+export type BucketResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Bucket'] = ResolversParentTypes['Bucket']
+> = {
+  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<
@@ -161,10 +178,12 @@ export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
+  buckets: Resolver<Array<ResolversTypes['Bucket']>, ParentType, ContextType>;
   hello: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
+  Bucket: BucketResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
 };

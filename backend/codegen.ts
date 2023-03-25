@@ -8,6 +8,10 @@ const tsPluginConfig: TypeScriptPluginConfig = {
 
 const tsResolversPluginConfig: TypeScriptResolversPluginConfig = {
   defaultMapper: 'unknown',
+  mapperTypeSuffix: 'GraphQL',
+  mappers: {
+    Bucket: '../schema/types#Bucket',
+  },
 };
 
 const config: CodegenConfig = {
