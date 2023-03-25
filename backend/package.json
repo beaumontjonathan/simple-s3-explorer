@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.299.0",
+    "@aws-sdk/s3-request-presigner": "^3.299.0",
     "graphql": "^16.6.0",
     "graphql-yoga": "^3.7.3"
   },

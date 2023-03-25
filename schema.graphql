@@ -46,5 +46,5 @@ type BucketObjectTag {
 }
 
 type Mutation {
-  never: String
+  generateObjectDownloadUrl(bucket: String!, key: String!): String!
 }

@@ -11,6 +11,7 @@ importers:
   backend:
     specifiers:
       '@aws-sdk/client-s3': ^3.299.0
+      '@aws-sdk/s3-request-presigner': ^3.299.0
       '@graphql-codegen/cli': 3.2.2
       '@graphql-codegen/typescript': 3.0.2
       '@graphql-codegen/typescript-resolvers': 3.1.1
@@ -23,6 +24,7 @@ importers:
       typescript: ^4.9.3
     dependencies:
       '@aws-sdk/client-s3': 3.299.0
+      '@aws-sdk/s3-request-presigner': 3.299.0
       graphql: 16.6.0
       graphql-yoga: 3.7.3_graphql@16.6.0
     devDependencies:
@@ -809,6 +811,21 @@ packages:
       tslib: 2.5.0
     dev: false
 
+  /@aws-sdk/s3-request-presigner/3.299.0:
+    resolution: {integrity: sha512-gPF3rNfY7gPVl+NdhZjTcd2GSExRj8pbRp/RDXmk+388xNbGbTbvuBVzak03LsQDKaxx45hgwPuvQ67aCwFX8g==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/middleware-endpoint': 3.299.0
+      '@aws-sdk/protocol-http': 3.296.0
+      '@aws-sdk/signature-v4-multi-region': 3.299.0
+      '@aws-sdk/smithy-client': 3.296.0
+      '@aws-sdk/types': 3.296.0
+      '@aws-sdk/util-format-url': 3.296.0
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - '@aws-sdk/signature-v4-crt'
+    dev: false
+
   /@aws-sdk/service-error-classification/3.296.0:
     resolution: {integrity: sha512-YIsWSQ38e1+FqXz3CMrkKS0JD8OLlHf6I72PJhbfegePpQQFqi9R8OREjP5V7UR9Z972yruv4i96ROH6SCtmoA==}
     engines: {node: '>=14.0.0'}
@@ -956,6 +973,15 @@ packages:
     resolution: {integrity: sha512-YraGGLJepXM6HCTaqEGTFf8RFRBdJ0C6uG5k0kVhiXmYxBkeupn8J07CVp9jfWqcPYWElAnMGVEZKU1OjRo4HQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
+      '@aws-sdk/types': 3.296.0
+      tslib: 2.5.0
+    dev: false
+
+  /@aws-sdk/util-format-url/3.296.0:
+    resolution: {integrity: sha512-CcYECzkUAnHL5q3uyPicafn2OY0GiklIYfuOUHPZ/4FMxIesd1BnCDDRjTlFxLWjuNuiihIdwB7Qb1pDzxc3Iw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/querystring-builder': 3.296.0
       '@aws-sdk/types': 3.296.0
       tslib: 2.5.0
     dev: false

@@ -5,6 +5,7 @@ import {
   NoSuchBucket,
 } from '@aws-sdk/client-s3';
 import { QueryResolvers } from '../generated/graphql';
+import { getRegionForBucket } from '../helpers';
 
 export const Query: QueryResolvers = {
   hello: () => 'world',
@@ -17,13 +18,9 @@ export const Query: QueryResolvers = {
   },
   bucket: async (_, { name }) => {
     try {
-      const { LocationConstraint: region } = await new S3Client({}).send(
-        new GetBucketLocationCommand({
-          Bucket: name,
-        })
-      );
+      const region = await getRegionForBucket(name);
 
-      return { name, region: region ?? 'us-east-1' };
+      return { name, region };
     } catch (error) {
       if (error instanceof NoSuchBucket) return null;
 

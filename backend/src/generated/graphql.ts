@@ -87,7 +87,12 @@ export type ListedBucketObject = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  never: Maybe<Scalars['String']>;
+  generateObjectDownloadUrl: Scalars['String'];
+};
+
+export type MutationGenerateObjectDownloadUrlArgs = {
+  bucket: Scalars['String'];
+  key: Scalars['String'];
 };
 
 export type Query = {
@@ -327,7 +332,12 @@ export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
-  never: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  generateObjectDownloadUrl: Resolver<
+    ResolversTypes['String'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationGenerateObjectDownloadUrlArgs, 'bucket' | 'key'>
+  >;
 };
 
 export type QueryResolvers<

@@ -1,7 +1,8 @@
-import { useLazyLoadQuery } from 'react-relay';
+import { useLazyLoadQuery, useMutation } from 'react-relay';
 import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { graphql } from 'relay-runtime';
+import { BucketObjectDownloadMutation } from './__generated__/BucketObjectDownloadMutation.graphql';
 import { BucketObjectQuery } from './__generated__/BucketObjectQuery.graphql';
 
 export default function BucketObject() {
@@ -43,6 +44,18 @@ export default function BucketObject() {
     `,
     { bucketName, objectKey }
   );
+
+  const [generateObjectDownloadUrl, mutationInFlight] =
+    useMutation<BucketObjectDownloadMutation>(
+      graphql`
+        mutation BucketObjectDownloadMutation(
+          $bucketName: String!
+          $objectKey: String!
+        ) {
+          generateObjectDownloadUrl(bucket: $bucketName, key: $objectKey)
+        }
+      `
+    );
 
   if (!bucket)
     return (
@@ -103,6 +116,29 @@ export default function BucketObject() {
           </table>
         </div>
       )}
+      <button
+        type="button"
+        disabled={mutationInFlight}
+        onClick={() => {
+          generateObjectDownloadUrl({
+            variables: {
+              bucketName,
+              objectKey,
+            },
+            onCompleted: ({ generateObjectDownloadUrl: url }) => {
+              const fileName = objectKey.split('/').pop() ?? 'Unknown file';
+              const link = document.createElement('a');
+              link.download = fileName;
+              link.href = url;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            },
+          });
+        }}
+      >
+        Download
+      </button>
     </div>
   );
 }
