@@ -1,3 +1,4 @@
+require('core-js/proposals/relative-indexing-method')
 const path = require("path");
 const express = require("express");
 const compression = require("compression");
@@ -25,20 +26,31 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 app.use(morgan("tiny"));
 
+const globalContext = {
+  bucketData: new Map(),
+  bucketsList: null,
+};
+
+const getLoadContext = () => globalContext;
+
 app.all(
   "*",
   process.env.NODE_ENV === "development"
     ? (req, res, next) => {
         purgeRequireCache();
 
+
         return createRequestHandler({
           build: require(BUILD_DIR),
           mode: process.env.NODE_ENV,
+          getLoadContext,
         })(req, res, next);
       }
     : createRequestHandler({
         build: require(BUILD_DIR),
         mode: process.env.NODE_ENV,
+        // getLoadContext,
+        getLoadContext,
       })
 );
 const port = process.env.PORT || 3000;
