@@ -1,12 +1,9 @@
-import type { CodegenConfig } from '@graphql-codegen/cli';
-import type { TypeScriptPluginConfig } from '@graphql-codegen/typescript';
-import type { TypeScriptResolversPluginConfig } from '@graphql-codegen/typescript-resolvers';
-
-const tsPluginConfig: TypeScriptPluginConfig = {
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tsPluginConfig = {
   avoidOptionals: true,
 };
-
-const tsResolversPluginConfig: TypeScriptResolversPluginConfig = {
+const tsResolversPluginConfig = {
   defaultMapper: 'unknown',
   mapperTypeSuffix: 'GraphQL',
   mappers: {
@@ -20,8 +17,7 @@ const tsResolversPluginConfig: TypeScriptResolversPluginConfig = {
     BucketPrefix: '../schema/types#BucketPrefix',
   },
 };
-
-const config: CodegenConfig = {
+const config = {
   overwrite: true,
   schema: '../schema.graphql',
   generates: {
@@ -34,5 +30,4 @@ const config: CodegenConfig = {
     },
   },
 };
-
-export default config;
+exports.default = config;

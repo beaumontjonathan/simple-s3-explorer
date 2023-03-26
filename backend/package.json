@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "nodemon src/index.ts",
+    "build": "rm -rf dist && tsc --project tsconfig.build.json",
+    "start": "node dist",
     "graphql-codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {

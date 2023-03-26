@@ -6,6 +6,8 @@ import {
   ListedBucketObject as ListedBucketObjectGraphQL,
   BucketObjectTag as BucketObjectTagGraphQL,
   BucketObjectMetadataItem as BucketObjectMetadataItemGraphQL,
+  BucketCommonPrefix as BucketCommonPrefixGraphQL,
+  BucketPrefix as BucketPrefixGraphQL,
 } from '../schema/types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -236,11 +238,11 @@ export type DirectiveResolverFn<
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<unknown>;
   Bucket: ResolverTypeWrapper<BucketGraphQL>;
-  BucketCommonPrefix: ResolverTypeWrapper<unknown>;
+  BucketCommonPrefix: ResolverTypeWrapper<BucketCommonPrefixGraphQL>;
   BucketObject: ResolverTypeWrapper<BucketObjectGraphQL>;
   BucketObjectMetadataItem: ResolverTypeWrapper<BucketObjectMetadataItemGraphQL>;
   BucketObjectTag: ResolverTypeWrapper<BucketObjectTagGraphQL>;
-  BucketPrefix: ResolverTypeWrapper<unknown>;
+  BucketPrefix: ResolverTypeWrapper<BucketPrefixGraphQL>;
   Int: ResolverTypeWrapper<unknown>;
   ListedBucket: ResolverTypeWrapper<ListedBucketGraphQL>;
   ListedBucketObject: ResolverTypeWrapper<ListedBucketObjectGraphQL>;
@@ -253,11 +255,11 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: unknown;
   Bucket: BucketGraphQL;
-  BucketCommonPrefix: unknown;
+  BucketCommonPrefix: BucketCommonPrefixGraphQL;
   BucketObject: BucketObjectGraphQL;
   BucketObjectMetadataItem: BucketObjectMetadataItemGraphQL;
   BucketObjectTag: BucketObjectTagGraphQL;
-  BucketPrefix: unknown;
+  BucketPrefix: BucketPrefixGraphQL;
   Int: unknown;
   ListedBucket: ListedBucketGraphQL;
   ListedBucketObject: ListedBucketObjectGraphQL;

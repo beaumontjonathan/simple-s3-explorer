@@ -8,6 +8,10 @@ import { Bucket } from './Bucket';
 import { ListedBucket } from './ListedBucket';
 import { BucketObject } from './BucketObject';
 import { ListedBucketObject } from './ListedBucketObject';
+import { BucketCommonPrefix } from './BucketCommonPrefix';
+import { BucketObjectMetadataItem } from './BucketObjectMetadataItem';
+import { BucketObjectTag } from './BucketObjectTag';
+import { BucketPrefix } from './BucketPrefix';
 
 const resolvers: Resolvers = {
   Query,
@@ -16,6 +20,10 @@ const resolvers: Resolvers = {
   ListedBucket,
   BucketObject,
   ListedBucketObject,
+  BucketCommonPrefix,
+  BucketObjectMetadataItem,
+  BucketObjectTag,
+  BucketPrefix,
 };
 
 const typeDefs = readFileSync(

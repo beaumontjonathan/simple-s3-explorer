@@ -12,7 +12,6 @@ export default function Bucket() {
   const match = useMatch('/bucket/:bucketName/browser');
   const isBrowser = match !== null;
   const activeKey = isBrowser ? 'browser' : 'list';
-  console.log({ match, activeKey });
 
   return (
     <>

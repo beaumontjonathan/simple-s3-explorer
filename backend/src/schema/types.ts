@@ -40,3 +40,12 @@ export type BucketObjectTag = {
   key: string;
   value: string;
 };
+
+export type BucketCommonPrefix = {
+  prefix: string;
+};
+
+export type BucketPrefix = {
+  commonPrefixes: BucketCommonPrefix[];
+  objects: ListedBucketObject[];
+};

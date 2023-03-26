@@ -43,9 +43,7 @@ const parseMultipartResponse = (
   if (!chunk.value) throw new Error('Should have been closed by now');
   const foo = new TextDecoder().decode(chunk.value);
   const json = foo.split('\r\n\r\n').pop()?.split('\r\n')[0];
-  console.log('parsing', json);
   const parsed = JSON.parse(json!);
-  console.log(parsed);
   const hasNext =
     'hasNext' in parsed &&
     typeof parsed.hasNext === 'boolean' &&
@@ -88,7 +86,6 @@ const fetchFn: FetchFunction = (request, variables) => {
     })
       .then(async (res) => {
         const contentType = res.headers.get('content-type');
-        console.log({ contentType });
         let current: any = null;
 
         if (contentType?.includes('multipart/mixed')) {
@@ -100,37 +97,26 @@ const fetchFn: FetchFunction = (request, variables) => {
             const chunk = await reader.read();
             if (chunk.done) break;
 
-            console.log('new chunk', chunk);
             const res = parseMultipartResponse(chunk);
-            console.log(res);
             if (res.type === 'initial') {
               if (current !== null) throw new Error('Cannot get initial twice');
               current = res.data;
-              console.log('chunk', current);
               source.next({ data: current });
             } else {
               if (current === null) throw new Error('Initial not set');
               current = merge(current, res.data);
-              console.log('Merged', current);
-              res.data.forEach((item) => source.next(item));
-              // source.next({ data: current });
-              // data, label, path
-              // 'useIsParentQueryActiveTestUserDeferQuery$defer$useIsParentQueryActiveTestUserFragment',
+              res.data.forEach((item: any) => source.next(item));
             }
             if (!res.hasNext) {
               source.complete();
             }
           } while (true);
-          // for (const chunk ) {
 
           return Promise.resolve();
-          // throw new Error('done');
-          // }
         }
 
         // Simple JSON
         return res.json().then((data) => {
-          console.log('json', data);
           source.next(data);
           source.complete();
         });

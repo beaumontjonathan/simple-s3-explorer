@@ -2,7 +2,10 @@
   "private": true,
   "scripts": {
     "prettier:check": "prettier . -c",
-    "prettier:write": "prettier . -w"
+    "prettier:write": "prettier . -w",
+    "dev": "pnpm -r --stream dev",
+    "build": "pnpm -r --stream build",
+    "start": "pnpm -r --stream start"
   },
   "dependencies": {
     "prettier": "^2.8.7"
