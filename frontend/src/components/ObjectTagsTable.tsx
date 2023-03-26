@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { graphql, useFragment } from 'react-relay';
 import {
@@ -40,7 +40,7 @@ export default function ObjectTagsTable({ object }: Props) {
 
   return (
     <section>
-      <h3>Tags</h3>
+      <Typography.Title level={3}>Tags</Typography.Title>
       <Table
         size="small"
         columns={columns}

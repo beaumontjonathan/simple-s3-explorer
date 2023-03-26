@@ -1,6 +1,7 @@
 import { useMutation } from 'react-relay';
 import { graphql } from 'relay-runtime';
 import { Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
 import { ObjectDownloadButtonMutation } from '../__generated__/ObjectDownloadButtonMutation.graphql';
 
 type Props = {
@@ -23,6 +24,7 @@ export default function ObjectDownloadButton({ bucketName, objectKey }: Props) {
 
   return (
     <Button
+      icon={<DownloadOutlined />}
       loading={mutationInFlight}
       onClick={() => {
         generateObjectDownloadUrl({

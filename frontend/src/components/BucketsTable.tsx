@@ -19,7 +19,7 @@ const columns: ColumnsType<DataItem> = [
     dataIndex: 'key',
     key: 'key',
     render: (_, bucket) => (
-      <Link to={`/bucket/${bucket.name}`}>{bucket.name}</Link>
+      <Link to={`/bucket/${bucket.name}/browser`}>{bucket.name}</Link>
     ),
   },
   {
@@ -48,7 +48,7 @@ export default function BucketsTable({ query }: Props) {
         size="small"
         columns={columns}
         dataSource={buckets}
-        pagination={false}
+        // pagination={false}
       />
     </section>
   );

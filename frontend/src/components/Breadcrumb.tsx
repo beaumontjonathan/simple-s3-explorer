@@ -1,12 +1,38 @@
 import { Breadcrumb as AntdBreadcrumb } from 'antd';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 
+const linkBreadcrumbsFromKey = (
+  key: string,
+  bucketName: string,
+  isObjectKey: boolean
+) => {
+  const prefixParts = key.split('/');
+  while (prefixParts.at(-1) === '' && !isObjectKey) prefixParts.pop();
+  return prefixParts.map((part, index) => ({
+    title:
+      index + 1 === prefixParts.length ? (
+        part || '.'
+      ) : (
+        <Link
+          key={part}
+          to={`/bucket/${bucketName}/browser?prefix=${encodeURIComponent(
+            prefixParts.slice(0, index + 1).join('/') + '/'
+          )}`}
+        >
+          {part}
+        </Link>
+      ),
+  }));
+};
+
 export default function Breadcrumb() {
   const { bucketName } = useParams();
   const [searchParams] = useSearchParams();
-  const objectKey = searchParams.get('objectKey');
+  const objectKeyString = searchParams.get('objectKey');
+  const prefixString = searchParams.get('prefix');
   const hasBucketName = typeof bucketName === 'string';
-  const hasObjectKey = typeof objectKey === 'string';
+  const hasObjectKey = typeof objectKeyString === 'string';
+  const hasPrefix = typeof prefixString === 'string';
 
   const items = [
     {
@@ -15,16 +41,25 @@ export default function Breadcrumb() {
   ];
 
   if (hasBucketName) {
-    items.push({
-      title: hasObjectKey ? (
-        <Link to={`/bucket/${bucketName}`}>{bucketName}</Link>
-      ) : (
-        bucketName
-      ),
-    });
+    if (hasPrefix) {
+      const prefix = decodeURIComponent(prefixString);
+      items.push({
+        title: <Link to={`/bucket/${bucketName}/browser`}>{bucketName}</Link>,
+      });
+      items.push(...linkBreadcrumbsFromKey(prefix, bucketName, false));
+    } else {
+      items.push({
+        title: hasObjectKey ? (
+          <Link to={`/bucket/${bucketName}/browser`}>{bucketName}</Link>
+        ) : (
+          bucketName
+        ),
+      });
 
-    if (hasObjectKey) {
-      items.push({ title: objectKey });
+      if (hasObjectKey) {
+        const objectKey = decodeURIComponent(objectKeyString);
+        items.push(...linkBreadcrumbsFromKey(objectKey, bucketName, true));
+      }
     }
   }
 

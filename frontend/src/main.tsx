@@ -9,6 +9,8 @@ import Bucket from './Bucket';
 import BucketObject from './BucketObject';
 import Breadcrumb from './components/Breadcrumb';
 import PageLoading from './components/PageLoading';
+import BucketObjectsList from './BucketObjectsList';
+import BucketObjectsBrowser from './BucketObjectsBrowser';
 
 const router = createBrowserRouter([
   {
@@ -16,19 +18,10 @@ const router = createBrowserRouter([
     element: (
       <>
         <Breadcrumb />
-        <div
-        // style={{
-        //   display: 'flex',
-        //   alignItems: 'center',
-        //   justifyContent: 'center',
-        //   flexDirection: 'column',
-        // }}
-        >
-          <div style={{ paddingRight: 24, paddingLeft: 24 }}>
-            <Suspense fallback={<PageLoading />}>
-              <Outlet />
-            </Suspense>
-          </div>
+        <div style={{ paddingRight: 24, paddingLeft: 24 }}>
+          <Suspense fallback={<PageLoading />}>
+            <Outlet />
+          </Suspense>
         </div>
       </>
     ),
@@ -40,6 +33,16 @@ const router = createBrowserRouter([
       {
         path: '/bucket/:bucketName',
         element: <Bucket />,
+        children: [
+          {
+            path: '/bucket/:bucketName',
+            element: <BucketObjectsList />,
+          },
+          {
+            path: '/bucket/:bucketName/browser',
+            element: <BucketObjectsBrowser />,
+          },
+        ],
       },
       {
         path: '/object/:bucketName',

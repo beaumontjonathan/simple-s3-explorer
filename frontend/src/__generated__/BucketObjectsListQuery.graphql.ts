@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9f70576749a7d860696f1e5e3065e4dd>>
+ * @generated SignedSource<<5a8c5c9eccd84bc920200c2635066b59>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,19 +10,19 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from 'relay-runtime';
-export type BucketQuery$variables = {
+export type BucketObjectsListQuery$variables = {
   bucketName: string;
 };
-export type BucketQuery$data = {
+export type BucketObjectsListQuery$data = {
   readonly bucket: {
     readonly name: string;
     readonly region: string;
     readonly ' $fragmentSpreads': FragmentRefs<'ObjectsTable_bucket'>;
   } | null;
 };
-export type BucketQuery = {
-  response: BucketQuery$data;
-  variables: BucketQuery$variables;
+export type BucketObjectsListQuery = {
+  response: BucketObjectsListQuery$data;
+  variables: BucketObjectsListQuery$variables;
 };
 
 const node: ConcreteRequest = (function () {
@@ -59,7 +59,7 @@ const node: ConcreteRequest = (function () {
       argumentDefinitions: v0 /*: any*/,
       kind: 'Fragment',
       metadata: null,
-      name: 'BucketQuery',
+      name: 'BucketObjectsListQuery',
       selections: [
         {
           alias: null,
@@ -87,7 +87,7 @@ const node: ConcreteRequest = (function () {
     operation: {
       argumentDefinitions: v0 /*: any*/,
       kind: 'Operation',
-      name: 'BucketQuery',
+      name: 'BucketObjectsListQuery',
       selections: [
         {
           alias: null,
@@ -151,16 +151,16 @@ const node: ConcreteRequest = (function () {
       ],
     },
     params: {
-      cacheID: 'd4cab9745e2e21a12d662c27638e0097',
+      cacheID: '84f4271ab809902a8bd7a29e507ffcee',
       id: null,
       metadata: {},
-      name: 'BucketQuery',
+      name: 'BucketObjectsListQuery',
       operationKind: 'query',
-      text: 'query BucketQuery(\n  $bucketName: String!\n) {\n  bucket(name: $bucketName) {\n    name\n    region\n    ...ObjectsTable_bucket\n  }\n}\n\nfragment ObjectsTable_bucket on Bucket {\n  name\n  objects {\n    key\n    etag\n    size\n    storageClass\n    lastModified\n  }\n}\n',
+      text: 'query BucketObjectsListQuery(\n  $bucketName: String!\n) {\n  bucket(name: $bucketName) {\n    name\n    region\n    ...ObjectsTable_bucket\n  }\n}\n\nfragment ObjectsTable_bucket on Bucket {\n  name\n  objects {\n    key\n    etag\n    size\n    storageClass\n    lastModified\n  }\n}\n',
     },
   };
 })();
 
-(node as any).hash = '7593b1640d3af8ecfb1040131c5997a9';
+(node as any).hash = '60663eba6a3aa60e21f31cb2adeb7e65';
 
 export default node;

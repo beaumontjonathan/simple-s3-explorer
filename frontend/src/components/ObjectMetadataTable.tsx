@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Table, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { graphql, useFragment } from 'react-relay';
 import {
@@ -48,7 +48,7 @@ export default function ObjectMetadataTable({ object }: Props) {
 
   return (
     <section>
-      <h3>Metadata</h3>
+      <Typography.Title level={3}>Metadata</Typography.Title>
       <Table
         size="small"
         columns={columns}

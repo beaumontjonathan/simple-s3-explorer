@@ -13,8 +13,18 @@ type ListedBucket {
 type Bucket {
   name: String!
   region: String!
+  prefix(prefix: String!): BucketPrefix
   objects(first: Int): [ListedBucketObject!]!
   object(objectKey: String!): BucketObject
+}
+
+type BucketPrefix {
+  commonPrefixes: [BucketCommonPrefix!]!
+  objects: [ListedBucketObject!]!
+}
+
+type BucketCommonPrefix {
+  prefix: String!
 }
 
 type ListedBucketObject {

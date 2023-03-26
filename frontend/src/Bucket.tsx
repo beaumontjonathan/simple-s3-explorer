@@ -1,40 +1,59 @@
-import { Typography } from 'antd';
-import { useParams } from 'react-router-dom';
-import { graphql, useLazyLoadQuery } from 'react-relay';
-import { BucketQuery } from './__generated__/BucketQuery.graphql';
-import ObjectsTable from './components/ObjectsTable';
+import { Typography, Tabs } from 'antd';
+import { FolderOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { Suspense } from 'react';
+import { Outlet, useParams, useMatch, useNavigate } from 'react-router-dom';
+import PageLoading from './components/PageLoading';
 
 export default function Bucket() {
   const { bucketName } = useParams<'bucketName'>();
   if (!bucketName) throw new Error('Missing required param bucketName');
+  const navigate = useNavigate();
 
-  const { bucket } = useLazyLoadQuery<BucketQuery>(
-    graphql`
-      query BucketQuery($bucketName: String!) {
-        bucket(name: $bucketName) {
-          name
-          region
-          ...ObjectsTable_bucket
-        }
-      }
-    `,
-    { bucketName }
-  );
-
-  if (bucket === null) {
-    return (
-      <main>
-        <Typography.Title>
-          Bucket <code>{bucketName}</code> not found
-        </Typography.Title>
-      </main>
-    );
-  }
+  const match = useMatch('/bucket/:bucketName/browser');
+  const isBrowser = match !== null;
+  const activeKey = isBrowser ? 'browser' : 'list';
+  console.log({ match, activeKey });
 
   return (
     <>
       <Typography.Title>{bucketName}</Typography.Title>
-      <ObjectsTable bucket={bucket} />
+      <Tabs
+        items={[
+          {
+            label: (
+              <span>
+                <FolderOutlined /> Browser
+              </span>
+            ),
+            key: 'browser',
+          },
+          {
+            label: (
+              <span>
+                <UnorderedListOutlined /> List
+              </span>
+            ),
+            key: 'list',
+          },
+        ]}
+        activeKey={activeKey}
+        onChange={(value) => {
+          if (value === activeKey) return;
+          switch (value) {
+            case 'list':
+              return navigate(`/bucket/${bucketName}`, { relative: 'route' });
+            case 'browser':
+              return navigate(`/bucket/${bucketName}/browser`, {
+                relative: 'route',
+              });
+            default:
+              return;
+          }
+        }}
+      />
+      <Suspense fallback={<PageLoading />}>
+        <Outlet />
+      </Suspense>
     </>
   );
 }

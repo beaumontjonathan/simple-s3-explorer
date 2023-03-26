@@ -11,6 +11,36 @@ import { BucketResolvers } from '../generated/graphql';
 export const Bucket: BucketResolvers = {
   name: ({ name }) => name,
   region: ({ region }) => region,
+  prefix: async ({ name, region }, { prefix }) => {
+    const results = await new S3Client({ region }).send(
+      new ListObjectsV2Command({
+        Bucket: name,
+        Delimiter: '/',
+        Prefix: prefix,
+        EncodingType: 'url',
+      })
+    );
+    return {
+      commonPrefixes: (results.CommonPrefixes ?? []).map((p) => ({
+        prefix: p.Prefix ?? '',
+      })),
+      objects: (results.Contents ?? []).flatMap((item) =>
+        typeof item.Key === 'string'
+          ? {
+              bucketName: name,
+              bucketRegion: region,
+              key: item.Key,
+              lastModified: item.LastModified?.toISOString() ?? '',
+              etag: item.ETag ?? '',
+              size: item.Size ?? 0,
+              storageClass:
+                (item.StorageClass as ObjectStorageClass) ??
+                ObjectStorageClass.STANDARD,
+            }
+          : []
+      ),
+    };
+  },
   objects: async ({ name, region }, { first }) => {
     const res = await new S3Client({ region }).send(
       new ListObjectsV2Command({

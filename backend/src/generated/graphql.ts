@@ -35,6 +35,7 @@ export type Bucket = {
   name: Scalars['String'];
   object: Maybe<BucketObject>;
   objects: Array<ListedBucketObject>;
+  prefix: Maybe<BucketPrefix>;
   region: Scalars['String'];
 };
 
@@ -44,6 +45,15 @@ export type BucketObjectArgs = {
 
 export type BucketObjectsArgs = {
   first: InputMaybe<Scalars['Int']>;
+};
+
+export type BucketPrefixArgs = {
+  prefix: Scalars['String'];
+};
+
+export type BucketCommonPrefix = {
+  __typename?: 'BucketCommonPrefix';
+  prefix: Scalars['String'];
 };
 
 export type BucketObject = {
@@ -68,6 +78,12 @@ export type BucketObjectTag = {
   __typename?: 'BucketObjectTag';
   key: Scalars['String'];
   value: Scalars['String'];
+};
+
+export type BucketPrefix = {
+  __typename?: 'BucketPrefix';
+  commonPrefixes: Array<BucketCommonPrefix>;
+  objects: Array<ListedBucketObject>;
 };
 
 export type ListedBucket = {
@@ -220,9 +236,11 @@ export type DirectiveResolverFn<
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<unknown>;
   Bucket: ResolverTypeWrapper<BucketGraphQL>;
+  BucketCommonPrefix: ResolverTypeWrapper<unknown>;
   BucketObject: ResolverTypeWrapper<BucketObjectGraphQL>;
   BucketObjectMetadataItem: ResolverTypeWrapper<BucketObjectMetadataItemGraphQL>;
   BucketObjectTag: ResolverTypeWrapper<BucketObjectTagGraphQL>;
+  BucketPrefix: ResolverTypeWrapper<unknown>;
   Int: ResolverTypeWrapper<unknown>;
   ListedBucket: ResolverTypeWrapper<ListedBucketGraphQL>;
   ListedBucketObject: ResolverTypeWrapper<ListedBucketObjectGraphQL>;
@@ -235,9 +253,11 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: unknown;
   Bucket: BucketGraphQL;
+  BucketCommonPrefix: unknown;
   BucketObject: BucketObjectGraphQL;
   BucketObjectMetadataItem: BucketObjectMetadataItemGraphQL;
   BucketObjectTag: BucketObjectTagGraphQL;
+  BucketPrefix: unknown;
   Int: unknown;
   ListedBucket: ListedBucketGraphQL;
   ListedBucketObject: ListedBucketObjectGraphQL;
@@ -263,7 +283,21 @@ export type BucketResolvers<
     ContextType,
     Partial<BucketObjectsArgs>
   >;
+  prefix: Resolver<
+    Maybe<ResolversTypes['BucketPrefix']>,
+    ParentType,
+    ContextType,
+    RequireFields<BucketPrefixArgs, 'prefix'>
+  >;
   region: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BucketCommonPrefixResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BucketCommonPrefix'] = ResolversParentTypes['BucketCommonPrefix']
+> = {
+  prefix: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -305,6 +339,23 @@ export type BucketObjectTagResolvers<
 > = {
   key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   value: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BucketPrefixResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BucketPrefix'] = ResolversParentTypes['BucketPrefix']
+> = {
+  commonPrefixes: Resolver<
+    Array<ResolversTypes['BucketCommonPrefix']>,
+    ParentType,
+    ContextType
+  >;
+  objects: Resolver<
+    Array<ResolversTypes['ListedBucketObject']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -363,9 +414,11 @@ export type QueryResolvers<
 
 export type Resolvers<ContextType = any> = {
   Bucket: BucketResolvers<ContextType>;
+  BucketCommonPrefix: BucketCommonPrefixResolvers<ContextType>;
   BucketObject: BucketObjectResolvers<ContextType>;
   BucketObjectMetadataItem: BucketObjectMetadataItemResolvers<ContextType>;
   BucketObjectTag: BucketObjectTagResolvers<ContextType>;
+  BucketPrefix: BucketPrefixResolvers<ContextType>;
   ListedBucket: ListedBucketResolvers<ContextType>;
   ListedBucketObject: ListedBucketObjectResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
