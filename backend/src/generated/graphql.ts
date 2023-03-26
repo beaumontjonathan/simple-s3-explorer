@@ -65,7 +65,7 @@ export type BucketObject = {
   key: Scalars['String'];
   lastModified: Scalars['String'];
   metadata: Array<BucketObjectMetadataItem>;
-  size: Scalars['Int'];
+  size: Scalars['Float'];
   storageClass: Scalars['String'];
   tags: Array<BucketObjectTag>;
 };
@@ -101,7 +101,7 @@ export type ListedBucketObject = {
   etag: Scalars['String'];
   key: Scalars['String'];
   lastModified: Scalars['String'];
-  size: Scalars['Int'];
+  size: Scalars['Float'];
   storageClass: Scalars['String'];
 };
 
@@ -260,6 +260,7 @@ export type ResolversTypes = {
   BucketObjectMetadataItem: ResolverTypeWrapper<BucketObjectMetadataItemGraphQL>;
   BucketObjectTag: ResolverTypeWrapper<BucketObjectTagGraphQL>;
   BucketPrefix: ResolverTypeWrapper<BucketPrefixGraphQL>;
+  Float: ResolverTypeWrapper<unknown>;
   Int: ResolverTypeWrapper<unknown>;
   ListedBucket: ResolverTypeWrapper<ListedBucketGraphQL>;
   ListedBucketObject: ResolverTypeWrapper<ListedBucketObjectGraphQL>;
@@ -278,6 +279,7 @@ export type ResolversParentTypes = {
   BucketObjectMetadataItem: BucketObjectMetadataItemGraphQL;
   BucketObjectTag: BucketObjectTagGraphQL;
   BucketPrefix: BucketPrefixGraphQL;
+  Float: unknown;
   Int: unknown;
   ListedBucket: ListedBucketGraphQL;
   ListedBucketObject: ListedBucketObjectGraphQL;
@@ -359,7 +361,7 @@ export type BucketObjectResolvers<
     ParentType,
     ContextType
   >;
-  size: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  size: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   storageClass: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tags: Resolver<
     Array<ResolversTypes['BucketObjectTag']>,
@@ -422,7 +424,7 @@ export type ListedBucketObjectResolvers<
   etag: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   key: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastModified: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  size: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  size: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   storageClass: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -23,9 +23,11 @@ export function formatBytes(bytes: number) {
   return `${roundToOneDecimal(value)} ${BYTE_UNITS[bytesUnitIndex]}`;
 }
 
+const DEFAULT_AWS_PROFILE = 'default';
+
 export function useProfileName(): string {
   const [searchParams] = useSearchParams();
-  return searchParams.get('p') ?? 'default';
+  return searchParams.get('p') ?? DEFAULT_AWS_PROFILE;
 }
 
 export type WithProfileNameParam = (
@@ -36,7 +38,7 @@ export function useWithProfileNameParam(): WithProfileNameParam {
   const profileName = useProfileName();
   return useCallback(
     (params) => {
-      return profileName === 'default'
+      return profileName === DEFAULT_AWS_PROFILE
         ? params
         : Object.assign(params, { p: profileName });
     },
@@ -46,17 +48,18 @@ export function useWithProfileNameParam(): WithProfileNameParam {
 
 export function useSetProfileName(): (args: { profileName: string }) => void {
   const currentProfileName = useProfileName();
-  const withProfileNameParam = useWithProfileNameParam();
   const navigate = useNavigate();
   return useCallback(
     ({ profileName }) => {
       if (profileName !== currentProfileName) {
         navigate({
           pathname: '/',
-          search: createSearchParams(withProfileNameParam({})).toString(),
+          search: createSearchParams(
+            profileName === DEFAULT_AWS_PROFILE ? {} : { p: profileName }
+          ).toString(),
         });
       }
     },
-    [currentProfileName, withProfileNameParam]
+    [currentProfileName]
   );
 }
