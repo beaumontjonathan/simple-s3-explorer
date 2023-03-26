@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { graphql, useLazyLoadQuery } from 'react-relay';
 import { BucketObjectsListQuery } from './__generated__/BucketObjectsListQuery.graphql';
 import ObjectsTable, { ObjectsTableLoading } from './components/ObjectsTable';
+import { BucketNotFoundError } from './errors';
 
 const useBucketName = () => {
   const { bucketName } = useParams<'bucketName'>();
@@ -24,7 +25,7 @@ export default function BucketObjectsList() {
     { bucketName }
   );
 
-  if (bucket === null) return <p>Not found</p>;
+  if (bucket === null) throw new BucketNotFoundError({ bucketName });
 
   return <ObjectsTable bucket={bucket} />;
 }

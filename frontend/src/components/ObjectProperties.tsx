@@ -1,6 +1,6 @@
 import { useFragment, useLazyLoadQuery } from 'react-relay';
 import { graphql } from 'relay-runtime';
-import { Card, Descriptions, Skeleton, Table, Typography } from 'antd';
+import { Card, Descriptions, Typography } from 'antd';
 import ObjectMetadataTable, {
   ObjectMetadataTableLoading,
 } from './ObjectMetadataTable';
@@ -9,6 +9,8 @@ import { formatBytes } from '../helpers';
 import { ObjectPropertiesObject_bucket$key } from '../__generated__/ObjectPropertiesObject_bucket.graphql';
 import { ReactNode, Suspense } from 'react';
 import { ObjectPropertiesQuery } from '../__generated__/ObjectPropertiesQuery.graphql';
+import SkeletonText from './SkeletonText';
+import { ObjectNotFoundError } from '../errors';
 
 type ObjectDescriptionsProps = {
   objectKey: string;
@@ -65,11 +67,7 @@ function Inner({
   );
 
   if (!objectBucket || !objectBucket.object)
-    return (
-      <div>
-        Key <code>{objectKey}</code> not found
-      </div>
-    );
+    throw new ObjectNotFoundError({ objectKey });
 
   const { object } = objectBucket;
 
@@ -118,34 +116,10 @@ export default function ObjectProperties({ bucketName, objectKey }: Props) {
         fallback={
           <ObjectDescriptions
             objectKey={objectKey}
-            size={
-              <Skeleton
-                title={{ style: { margin: 0, height: 18 } }}
-                paragraph={{ rows: 0, style: { margin: 0 } }}
-                style={{}}
-              />
-            }
-            etag={
-              <Skeleton
-                title={{ style: { margin: 0, height: 18 } }}
-                paragraph={{ rows: 0, style: { margin: 0 } }}
-                style={{}}
-              />
-            }
-            storageClass={
-              <Skeleton
-                title={{ style: { margin: 0, height: 18 } }}
-                paragraph={{ rows: 0, style: { margin: 0 } }}
-                style={{}}
-              />
-            }
-            lastModified={
-              <Skeleton
-                title={{ style: { margin: 0, height: 18 } }}
-                paragraph={{ rows: 0, style: { margin: 0 } }}
-                style={{}}
-              />
-            }
+            size={<SkeletonText />}
+            etag={<SkeletonText />}
+            storageClass={<SkeletonText />}
+            lastModified={<SkeletonText />}
           />
         }
       >

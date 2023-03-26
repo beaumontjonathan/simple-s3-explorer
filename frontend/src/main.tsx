@@ -15,10 +15,12 @@ import BucketObjectsList, {
 import BucketObjectsBrowser, {
   BucketObjectsBrowserLoading,
 } from './BucketObjectsBrowser';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const router = createBrowserRouter([
   {
     path: '/',
+    ErrorBoundary,
     element: (
       <>
         <Breadcrumb />
@@ -41,6 +43,7 @@ const router = createBrowserRouter([
       {
         path: '/bucket/:bucketName',
         element: <Bucket />,
+        ErrorBoundary,
         children: [
           {
             path: '/bucket/:bucketName',
@@ -63,6 +66,7 @@ const router = createBrowserRouter([
       {
         path: '/object/:bucketName',
         element: <BucketObject />,
+        ErrorBoundary,
       },
     ],
   },

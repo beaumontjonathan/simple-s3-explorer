@@ -1,4 +1,4 @@
-import { Table, Typography } from 'antd';
+import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { graphql, useFragment } from 'react-relay';
 import {

@@ -9,7 +9,7 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
+import { FragmentRefs } from 'relay-runtime';
 export type ObjectsTable_bucket$data = {
   readonly name: string;
   readonly objects: ReadonlyArray<{
@@ -19,77 +19,77 @@ export type ObjectsTable_bucket$data = {
     readonly size: number;
     readonly storageClass: string;
   }>;
-  readonly " $fragmentType": "ObjectsTable_bucket";
+  readonly ' $fragmentType': 'ObjectsTable_bucket';
 };
 export type ObjectsTable_bucket$key = {
-  readonly " $data"?: ObjectsTable_bucket$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ObjectsTable_bucket">;
+  readonly ' $data'?: ObjectsTable_bucket$data;
+  readonly ' $fragmentSpreads': FragmentRefs<'ObjectsTable_bucket'>;
 };
 
 const node: ReaderFragment = {
-  "argumentDefinitions": [],
-  "kind": "Fragment",
-  "metadata": null,
-  "name": "ObjectsTable_bucket",
-  "selections": [
+  argumentDefinitions: [],
+  kind: 'Fragment',
+  metadata: null,
+  name: 'ObjectsTable_bucket',
+  selections: [
     {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "name",
-      "storageKey": null
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'name',
+      storageKey: null,
     },
     {
-      "alias": null,
-      "args": null,
-      "concreteType": "ListedBucketObject",
-      "kind": "LinkedField",
-      "name": "objects",
-      "plural": true,
-      "selections": [
+      alias: null,
+      args: null,
+      concreteType: 'ListedBucketObject',
+      kind: 'LinkedField',
+      name: 'objects',
+      plural: true,
+      selections: [
         {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "key",
-          "storageKey": null
+          alias: null,
+          args: null,
+          kind: 'ScalarField',
+          name: 'key',
+          storageKey: null,
         },
         {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "etag",
-          "storageKey": null
+          alias: null,
+          args: null,
+          kind: 'ScalarField',
+          name: 'etag',
+          storageKey: null,
         },
         {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "size",
-          "storageKey": null
+          alias: null,
+          args: null,
+          kind: 'ScalarField',
+          name: 'size',
+          storageKey: null,
         },
         {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "storageClass",
-          "storageKey": null
+          alias: null,
+          args: null,
+          kind: 'ScalarField',
+          name: 'storageClass',
+          storageKey: null,
         },
         {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "lastModified",
-          "storageKey": null
-        }
+          alias: null,
+          args: null,
+          kind: 'ScalarField',
+          name: 'lastModified',
+          storageKey: null,
+        },
       ],
-      "storageKey": null
-    }
+      storageKey: null,
+    },
   ],
-  "type": "Bucket",
-  "abstractKey": null
+  type: 'Bucket',
+  abstractKey: null,
 };
 
-(node as any).hash = "f4c8672994131f521606e2f9bb84c10f";
+(node as any).hash = 'f4c8672994131f521606e2f9bb84c10f';
 
 export default node;

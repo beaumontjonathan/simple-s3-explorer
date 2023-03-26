@@ -33,7 +33,7 @@ export default function BucketsTable({ query }: Props) {
   const { buckets } = useFragment(
     graphql`
       fragment BucketsTable_query on Query {
-        buckets(first: 10) {
+        buckets {
           name
           createdAt
         }

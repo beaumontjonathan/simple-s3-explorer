@@ -7,6 +7,7 @@ import {
   BucketObjectsBrowserQuery$data,
 } from './__generated__/BucketObjectsBrowserQuery.graphql';
 import { formatBytes } from './helpers';
+import { BucketNotFoundError } from './errors';
 
 type Prefix = NonNullable<
   NonNullable<BucketObjectsBrowserQuery$data['bucket']>['prefix']
@@ -104,7 +105,7 @@ export default function BucketObjectsBrowser() {
     }
   );
 
-  if (!bucket || !bucket.prefix) throw new Error('TODO');
+  if (!bucket || !bucket.prefix) throw new BucketNotFoundError({ bucketName });
 
   return (
     <Table
