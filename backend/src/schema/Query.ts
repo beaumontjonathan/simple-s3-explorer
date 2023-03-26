@@ -12,8 +12,11 @@ export const Query: QueryResolvers = {
   buckets: async (_, { first }) => {
     const response = await new S3Client({}).send(new ListBucketsCommand({}));
     const { Buckets: buckets = [] } = response;
+    console.log(buckets);
     return buckets
-      .flatMap(({ Name: name }) => (name ? { name } : []))
+      .flatMap(({ Name: name, CreationDate: createdAt }) =>
+        name ? { name, createdAt: createdAt?.toISOString() ?? '' } : []
+      )
       .slice(0, first ?? undefined);
   },
   bucket: async (_, { name }) => {

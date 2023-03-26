@@ -1,6 +1,8 @@
-import { Link, useParams } from 'react-router-dom';
+import { Typography } from 'antd';
+import { useParams } from 'react-router-dom';
 import { graphql, useLazyLoadQuery } from 'react-relay';
 import { BucketQuery } from './__generated__/BucketQuery.graphql';
+import ObjectsTable from './components/ObjectsTable';
 
 export default function Bucket() {
   const { bucketName } = useParams<'bucketName'>();
@@ -12,13 +14,7 @@ export default function Bucket() {
         bucket(name: $bucketName) {
           name
           region
-          objects {
-            key
-            etag
-            size
-            storageClass
-            lastModified
-          }
+          ...ObjectsTable_bucket
         }
       }
     `,
@@ -28,29 +24,17 @@ export default function Bucket() {
   if (bucket === null) {
     return (
       <main>
-        <h1>
+        <Typography.Title>
           Bucket <code>{bucketName}</code> not found
-        </h1>
+        </Typography.Title>
       </main>
     );
   }
 
   return (
-    <div>
-      {bucket.name} {bucket.region}
-      <ul>
-        {bucket.objects.map((object) => (
-          <li key={object.key}>
-            <Link
-              to={`/object/${bucket.name}?objectKey=${encodeURIComponent(
-                object.key
-              )}`}
-            >
-              {object.key} {object.etag} {object.storageClass} {object.size}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Typography.Title>{bucketName}</Typography.Title>
+      <ObjectsTable bucket={bucket} />
+    </>
   );
 }

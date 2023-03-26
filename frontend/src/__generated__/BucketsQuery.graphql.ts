@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c5257a33bdf4d25dc25ab521cf64ec41>>
+ * @generated SignedSource<<d656f9707fb62b6e9029c0c9efe5cd9c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,7 +12,7 @@ import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from 'relay-runtime';
 export type BucketsQuery$variables = {};
 export type BucketsQuery$data = {
-  readonly ' $fragmentSpreads': FragmentRefs<'Buckets_query'>;
+  readonly ' $fragmentSpreads': FragmentRefs<'BucketsTable_query'>;
 };
 export type BucketsQuery = {
   response: BucketsQuery$data;
@@ -29,7 +29,7 @@ const node: ConcreteRequest = {
       {
         args: null,
         kind: 'FragmentSpread',
-        name: 'Buckets_query',
+        name: 'BucketsTable_query',
       },
     ],
     type: 'Query',
@@ -56,21 +56,28 @@ const node: ConcreteRequest = {
             name: 'name',
             storageKey: null,
           },
+          {
+            alias: null,
+            args: null,
+            kind: 'ScalarField',
+            name: 'createdAt',
+            storageKey: null,
+          },
         ],
         storageKey: null,
       },
     ],
   },
   params: {
-    cacheID: '4d922ca0230b6b4389b6116ef959faf5',
+    cacheID: '4657e7d81429bfcae789d763dc7c12f6',
     id: null,
     metadata: {},
     name: 'BucketsQuery',
     operationKind: 'query',
-    text: 'query BucketsQuery {\n  ...Buckets_query\n}\n\nfragment Buckets_query on Query {\n  buckets {\n    name\n  }\n}\n',
+    text: 'query BucketsQuery {\n  ...BucketsTable_query\n}\n\nfragment BucketsTable_query on Query {\n  buckets {\n    name\n    createdAt\n  }\n}\n',
   },
 };
 
-(node as any).hash = '33de14b961c90710bac2d64cb7a578e7';
+(node as any).hash = '44a623f17d2bc152eebe2d412ff9a26d';
 
 export default node;

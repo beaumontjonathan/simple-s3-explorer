@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<18546412d264a62b98c32c15025566d0>>
+ * @generated SignedSource<<ffecda5edb7d7732c4144b80a0054939>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
+import { FragmentRefs } from 'relay-runtime';
 export type BucketObjectQuery$variables = {
   bucketName: string;
   objectKey: string;
@@ -20,17 +21,11 @@ export type BucketObjectQuery$data = {
       readonly etag: string;
       readonly key: string;
       readonly lastModified: string;
-      readonly metadata: ReadonlyArray<{
-        readonly key: string;
-        readonly userDefined: boolean;
-        readonly value: string;
-      }>;
       readonly size: number;
       readonly storageClass: string;
-      readonly tags: ReadonlyArray<{
-        readonly key: string;
-        readonly value: string;
-      }>;
+      readonly ' $fragmentSpreads': FragmentRefs<
+        'ObjectMetadataTable_object' | 'ObjectTagsTable_object'
+      >;
     } | null;
     readonly region: string;
   } | null;
@@ -53,136 +48,123 @@ const node: ConcreteRequest = (function () {
         name: 'objectKey',
       },
     ],
-    v1 = {
+    v1 = [
+      {
+        kind: 'Variable',
+        name: 'name',
+        variableName: 'bucketName',
+      },
+    ],
+    v2 = {
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'name',
+      storageKey: null,
+    },
+    v3 = {
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'region',
+      storageKey: null,
+    },
+    v4 = [
+      {
+        kind: 'Variable',
+        name: 'objectKey',
+        variableName: 'objectKey',
+      },
+    ],
+    v5 = {
       alias: null,
       args: null,
       kind: 'ScalarField',
       name: 'key',
       storageKey: null,
     },
-    v2 = {
+    v6 = {
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'etag',
+      storageKey: null,
+    },
+    v7 = {
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'size',
+      storageKey: null,
+    },
+    v8 = {
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'storageClass',
+      storageKey: null,
+    },
+    v9 = {
+      alias: null,
+      args: null,
+      kind: 'ScalarField',
+      name: 'lastModified',
+      storageKey: null,
+    },
+    v10 = {
       alias: null,
       args: null,
       kind: 'ScalarField',
       name: 'value',
       storageKey: null,
-    },
-    v3 = [
-      {
-        alias: null,
-        args: [
-          {
-            kind: 'Variable',
-            name: 'name',
-            variableName: 'bucketName',
-          },
-        ],
-        concreteType: 'Bucket',
-        kind: 'LinkedField',
-        name: 'bucket',
-        plural: false,
-        selections: [
-          {
-            alias: null,
-            args: null,
-            kind: 'ScalarField',
-            name: 'name',
-            storageKey: null,
-          },
-          {
-            alias: null,
-            args: null,
-            kind: 'ScalarField',
-            name: 'region',
-            storageKey: null,
-          },
-          {
-            alias: null,
-            args: [
-              {
-                kind: 'Variable',
-                name: 'objectKey',
-                variableName: 'objectKey',
-              },
-            ],
-            concreteType: 'BucketObject',
-            kind: 'LinkedField',
-            name: 'object',
-            plural: false,
-            selections: [
-              v1 /*: any*/,
-              {
-                alias: null,
-                args: null,
-                kind: 'ScalarField',
-                name: 'etag',
-                storageKey: null,
-              },
-              {
-                alias: null,
-                args: null,
-                kind: 'ScalarField',
-                name: 'size',
-                storageKey: null,
-              },
-              {
-                alias: null,
-                args: null,
-                kind: 'ScalarField',
-                name: 'storageClass',
-                storageKey: null,
-              },
-              {
-                alias: null,
-                args: null,
-                kind: 'ScalarField',
-                name: 'lastModified',
-                storageKey: null,
-              },
-              {
-                alias: null,
-                args: null,
-                concreteType: 'BucketObjectTag',
-                kind: 'LinkedField',
-                name: 'tags',
-                plural: true,
-                selections: [v1 /*: any*/, v2 /*: any*/],
-                storageKey: null,
-              },
-              {
-                alias: null,
-                args: null,
-                concreteType: 'BucketObjectMetadataItem',
-                kind: 'LinkedField',
-                name: 'metadata',
-                plural: true,
-                selections: [
-                  v1 /*: any*/,
-                  v2 /*: any*/,
-                  {
-                    alias: null,
-                    args: null,
-                    kind: 'ScalarField',
-                    name: 'userDefined',
-                    storageKey: null,
-                  },
-                ],
-                storageKey: null,
-              },
-            ],
-            storageKey: null,
-          },
-        ],
-        storageKey: null,
-      },
-    ];
+    };
   return {
     fragment: {
       argumentDefinitions: v0 /*: any*/,
       kind: 'Fragment',
       metadata: null,
       name: 'BucketObjectQuery',
-      selections: v3 /*: any*/,
+      selections: [
+        {
+          alias: null,
+          args: v1 /*: any*/,
+          concreteType: 'Bucket',
+          kind: 'LinkedField',
+          name: 'bucket',
+          plural: false,
+          selections: [
+            v2 /*: any*/,
+            v3 /*: any*/,
+            {
+              alias: null,
+              args: v4 /*: any*/,
+              concreteType: 'BucketObject',
+              kind: 'LinkedField',
+              name: 'object',
+              plural: false,
+              selections: [
+                v5 /*: any*/,
+                v6 /*: any*/,
+                v7 /*: any*/,
+                v8 /*: any*/,
+                v9 /*: any*/,
+                {
+                  args: null,
+                  kind: 'FragmentSpread',
+                  name: 'ObjectTagsTable_object',
+                },
+                {
+                  args: null,
+                  kind: 'FragmentSpread',
+                  name: 'ObjectMetadataTable_object',
+                },
+              ],
+              storageKey: null,
+            },
+          ],
+          storageKey: null,
+        },
+      ],
       type: 'Query',
       abstractKey: null,
     },
@@ -191,19 +173,79 @@ const node: ConcreteRequest = (function () {
       argumentDefinitions: v0 /*: any*/,
       kind: 'Operation',
       name: 'BucketObjectQuery',
-      selections: v3 /*: any*/,
+      selections: [
+        {
+          alias: null,
+          args: v1 /*: any*/,
+          concreteType: 'Bucket',
+          kind: 'LinkedField',
+          name: 'bucket',
+          plural: false,
+          selections: [
+            v2 /*: any*/,
+            v3 /*: any*/,
+            {
+              alias: null,
+              args: v4 /*: any*/,
+              concreteType: 'BucketObject',
+              kind: 'LinkedField',
+              name: 'object',
+              plural: false,
+              selections: [
+                v5 /*: any*/,
+                v6 /*: any*/,
+                v7 /*: any*/,
+                v8 /*: any*/,
+                v9 /*: any*/,
+                {
+                  alias: null,
+                  args: null,
+                  concreteType: 'BucketObjectTag',
+                  kind: 'LinkedField',
+                  name: 'tags',
+                  plural: true,
+                  selections: [v5 /*: any*/, v10 /*: any*/],
+                  storageKey: null,
+                },
+                {
+                  alias: null,
+                  args: null,
+                  concreteType: 'BucketObjectMetadataItem',
+                  kind: 'LinkedField',
+                  name: 'metadata',
+                  plural: true,
+                  selections: [
+                    v5 /*: any*/,
+                    v10 /*: any*/,
+                    {
+                      alias: null,
+                      args: null,
+                      kind: 'ScalarField',
+                      name: 'userDefined',
+                      storageKey: null,
+                    },
+                  ],
+                  storageKey: null,
+                },
+              ],
+              storageKey: null,
+            },
+          ],
+          storageKey: null,
+        },
+      ],
     },
     params: {
-      cacheID: '44fe037509abda79a58e50f2f9c066ac',
+      cacheID: 'f575b68de5ded9ac633aca869b98912a',
       id: null,
       metadata: {},
       name: 'BucketObjectQuery',
       operationKind: 'query',
-      text: 'query BucketObjectQuery(\n  $bucketName: String!\n  $objectKey: String!\n) {\n  bucket(name: $bucketName) {\n    name\n    region\n    object(objectKey: $objectKey) {\n      key\n      etag\n      size\n      storageClass\n      lastModified\n      tags {\n        key\n        value\n      }\n      metadata {\n        key\n        value\n        userDefined\n      }\n    }\n  }\n}\n',
+      text: 'query BucketObjectQuery(\n  $bucketName: String!\n  $objectKey: String!\n) {\n  bucket(name: $bucketName) {\n    name\n    region\n    object(objectKey: $objectKey) {\n      key\n      etag\n      size\n      storageClass\n      lastModified\n      ...ObjectTagsTable_object\n      ...ObjectMetadataTable_object\n    }\n  }\n}\n\nfragment ObjectMetadataTable_object on BucketObject {\n  metadata {\n    key\n    value\n    userDefined\n  }\n}\n\nfragment ObjectTagsTable_object on BucketObject {\n  tags {\n    key\n    value\n  }\n}\n',
     },
   };
 })();
 
-(node as any).hash = 'e123e713b2db693f842c97a83b4e897c';
+(node as any).hash = 'd3bcd28712c8952511e42101fa798f32';
 
 export default node;

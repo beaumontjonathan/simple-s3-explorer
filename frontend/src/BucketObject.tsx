@@ -1,9 +1,13 @@
-import { useLazyLoadQuery, useMutation } from 'react-relay';
+import { useLazyLoadQuery } from 'react-relay';
 import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { graphql } from 'relay-runtime';
-import { BucketObjectDownloadMutation } from './__generated__/BucketObjectDownloadMutation.graphql';
 import { BucketObjectQuery } from './__generated__/BucketObjectQuery.graphql';
+import { Card, Descriptions, Typography } from 'antd';
+import ObjectMetadataTable from './components/ObjectMetadataTable';
+import ObjectTagsTable from './components/ObjectTagsTable';
+import ObjectDownloadButton from './components/ObjectDownloadButton';
+import { formatBytes } from './helpers';
 
 export default function BucketObject() {
   const { bucketName } = useParams<'bucketName'>();
@@ -29,33 +33,14 @@ export default function BucketObject() {
             size
             storageClass
             lastModified
-            tags {
-              key
-              value
-            }
-            metadata {
-              key
-              value
-              userDefined
-            }
+            ...ObjectTagsTable_object
+            ...ObjectMetadataTable_object
           }
         }
       }
     `,
     { bucketName, objectKey }
   );
-
-  const [generateObjectDownloadUrl, mutationInFlight] =
-    useMutation<BucketObjectDownloadMutation>(
-      graphql`
-        mutation BucketObjectDownloadMutation(
-          $bucketName: String!
-          $objectKey: String!
-        ) {
-          generateObjectDownloadUrl(bucket: $bucketName, key: $objectKey)
-        }
-      `
-    );
 
   if (!bucket)
     return (
@@ -73,72 +58,30 @@ export default function BucketObject() {
   const { object } = bucket;
 
   return (
-    <div>
-      <div>{bucket.name}</div>
-      <div>{object.key}</div>
-      <div>{object.etag}</div>
-      <div>{object.size}</div>
-      <div>{object.storageClass}</div>
-      <div>{object.lastModified}</div>
-      {object.tags.length === 0 ? null : (
-        <div>
-          Tags
-          <table>
-            <tr>
-              <th>Key</th>
-              <th>Value</th>
-            </tr>
-            {object.tags.map((tag) => (
-              <tr key={tag.key}>
-                <td>{tag.key}</td>
-                <td>{tag.value}</td>
-              </tr>
-            ))}
-          </table>
-        </div>
-      )}
-      {object.metadata.length === 0 ? null : (
-        <div>
-          Metadata
-          <table>
-            <tr>
-              <th>Type</th>
-              <th>Key</th>
-              <th>Value</th>
-            </tr>
-            {object.metadata.map((data) => (
-              <tr key={data.key}>
-                <td>{data.userDefined ? 'User defined' : 'System defined'}</td>
-                <td>{data.key}</td>
-                <td>{data.value}</td>
-              </tr>
-            ))}
-          </table>
-        </div>
-      )}
-      <button
-        type="button"
-        disabled={mutationInFlight}
-        onClick={() => {
-          generateObjectDownloadUrl({
-            variables: {
-              bucketName,
-              objectKey,
-            },
-            onCompleted: ({ generateObjectDownloadUrl: url }) => {
-              const fileName = objectKey.split('/').pop() ?? 'Unknown file';
-              const link = document.createElement('a');
-              link.download = fileName;
-              link.href = url;
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            },
-          });
-        }}
-      >
-        Download
-      </button>
-    </div>
+    <>
+      <Typography.Title>{objectKey}</Typography.Title>
+      <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <ObjectDownloadButton bucketName={bucketName} objectKey={objectKey} />
+      </div>
+      <div style={{ paddingTop: 24, paddingBottom: 24 }}>
+        <Card>
+          <Descriptions>
+            <Descriptions.Item label="Key">{object.key}</Descriptions.Item>
+            <Descriptions.Item label="ETag">{object.etag}</Descriptions.Item>
+            <Descriptions.Item label="Size">
+              {formatBytes(object.size)}
+            </Descriptions.Item>
+            <Descriptions.Item label="Storage class">
+              {object.storageClass}
+            </Descriptions.Item>
+            <Descriptions.Item label="Last modified">
+              {object.lastModified}
+            </Descriptions.Item>
+          </Descriptions>
+        </Card>
+      </div>
+      <ObjectTagsTable object={object} />
+      <ObjectMetadataTable object={object} />
+    </>
   );
 }

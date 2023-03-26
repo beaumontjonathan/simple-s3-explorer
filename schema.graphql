@@ -6,6 +6,7 @@ type Query {
 
 type ListedBucket {
   name: String!
+  createdAt: String!
   bucket: Bucket!
 }
 

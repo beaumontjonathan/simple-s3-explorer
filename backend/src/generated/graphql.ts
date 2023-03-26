@@ -73,6 +73,7 @@ export type BucketObjectTag = {
 export type ListedBucket = {
   __typename?: 'ListedBucket';
   bucket: Bucket;
+  createdAt: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -312,6 +313,7 @@ export type ListedBucketResolvers<
   ParentType extends ResolversParentTypes['ListedBucket'] = ResolversParentTypes['ListedBucket']
 > = {
   bucket: Resolver<ResolversTypes['Bucket'], ParentType, ContextType>;
+  createdAt: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

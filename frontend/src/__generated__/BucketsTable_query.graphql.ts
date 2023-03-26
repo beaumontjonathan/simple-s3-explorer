@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<76e07b0ae9161f0a5e35fd42bb657434>>
+ * @generated SignedSource<<4febdd122823862c66f6f77af1f4f01b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,22 +10,23 @@
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from 'relay-runtime';
-export type Buckets_query$data = {
+export type BucketsTable_query$data = {
   readonly buckets: ReadonlyArray<{
+    readonly createdAt: string;
     readonly name: string;
   }>;
-  readonly ' $fragmentType': 'Buckets_query';
+  readonly ' $fragmentType': 'BucketsTable_query';
 };
-export type Buckets_query$key = {
-  readonly ' $data'?: Buckets_query$data;
-  readonly ' $fragmentSpreads': FragmentRefs<'Buckets_query'>;
+export type BucketsTable_query$key = {
+  readonly ' $data'?: BucketsTable_query$data;
+  readonly ' $fragmentSpreads': FragmentRefs<'BucketsTable_query'>;
 };
 
 const node: ReaderFragment = {
   argumentDefinitions: [],
   kind: 'Fragment',
   metadata: null,
-  name: 'Buckets_query',
+  name: 'BucketsTable_query',
   selections: [
     {
       alias: null,
@@ -42,6 +43,13 @@ const node: ReaderFragment = {
           name: 'name',
           storageKey: null,
         },
+        {
+          alias: null,
+          args: null,
+          kind: 'ScalarField',
+          name: 'createdAt',
+          storageKey: null,
+        },
       ],
       storageKey: null,
     },
@@ -50,6 +58,6 @@ const node: ReaderFragment = {
   abstractKey: null,
 };
 
-(node as any).hash = 'e53a0aeb051ddcd1d3bad15b5477fba2';
+(node as any).hash = 'fc684f4e0bbd33e225a286ea42efbe46';
 
 export default node;

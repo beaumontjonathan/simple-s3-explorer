@@ -7,6 +7,7 @@ export type Bucket = {
 
 export type ListedBucket = {
   name: string;
+  createdAt: string;
 };
 
 export type BucketObject = {
