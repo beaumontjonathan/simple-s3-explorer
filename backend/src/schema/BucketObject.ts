@@ -5,6 +5,8 @@ import {
 } from '@aws-sdk/client-s3';
 import { BucketObjectResolvers } from '../generated/graphql';
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const BucketObject: BucketObjectResolvers = {
   key: ({ key }) => key,
   lastModified: ({ lastModified }) => lastModified,

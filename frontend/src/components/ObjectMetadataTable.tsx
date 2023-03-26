@@ -47,14 +47,15 @@ export default function ObjectMetadataTable({ object }: Props) {
   );
 
   return (
-    <section>
-      <Typography.Title level={3}>Metadata</Typography.Title>
-      <Table
-        size="small"
-        columns={columns}
-        dataSource={metadata}
-        pagination={false}
-      />
-    </section>
+    <Table
+      size="small"
+      columns={columns}
+      dataSource={metadata}
+      pagination={false}
+    />
   );
+}
+
+export function ObjectMetadataTableLoading() {
+  return <Table size="small" columns={columns} loading pagination={false} />;
 }

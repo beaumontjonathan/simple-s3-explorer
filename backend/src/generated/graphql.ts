@@ -266,6 +266,31 @@ export type ResolversParentTypes = {
   String: unknown;
 };
 
+export type DeferDirectiveArgs = {
+  if?: Scalars['Boolean'];
+  label: Maybe<Scalars['String']>;
+};
+
+export type DeferDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = DeferDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type StreamDirectiveArgs = {
+  if?: Scalars['Boolean'];
+  initialCount?: Maybe<Scalars['Int']>;
+  label: Maybe<Scalars['String']>;
+};
+
+export type StreamDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = StreamDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type BucketResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Bucket'] = ResolversParentTypes['Bucket']
@@ -423,4 +448,9 @@ export type Resolvers<ContextType = any> = {
   ListedBucketObject: ListedBucketObjectResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
+};
+
+export type DirectiveResolvers<ContextType = any> = {
+  defer: DeferDirectiveResolver<any, any, ContextType>;
+  stream: StreamDirectiveResolver<any, any, ContextType>;
 };

@@ -15,6 +15,7 @@ importers:
       '@graphql-codegen/cli': 3.2.2
       '@graphql-codegen/typescript': 3.0.2
       '@graphql-codegen/typescript-resolvers': 3.1.1
+      '@graphql-yoga/plugin-defer-stream': ^1.7.3
       '@tsconfig/node18': ^1.0.1
       '@types/node': ^18.15.9
       graphql: ^16.6.0
@@ -25,6 +26,7 @@ importers:
     dependencies:
       '@aws-sdk/client-s3': 3.299.0
       '@aws-sdk/s3-request-presigner': 3.299.0
+      '@graphql-yoga/plugin-defer-stream': 1.7.3_4d7de232canaalaxmusko2bteu
       graphql: 16.6.0
       graphql-yoga: 3.7.3_graphql@16.6.0
     devDependencies:
@@ -47,6 +49,7 @@ importers:
       '@vitejs/plugin-react': ^3.1.0
       antd: ^5.3.2
       babel-plugin-relay: ^14.0.1
+      parse-headers: ^2.0.5
       react: ^18.2.0
       react-dom: ^18.2.0
       react-relay: ^15.0.0
@@ -60,6 +63,7 @@ importers:
     dependencies:
       '@ant-design/icons': 5.0.1_biqbaboplfbrettd7655fr4n2y
       antd: 5.3.2_biqbaboplfbrettd7655fr4n2y
+      parse-headers: 2.0.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-relay: 15.0.0_react@18.2.0
@@ -2494,6 +2498,17 @@ packages:
       tslib: 2.5.0
     dev: false
 
+  /@graphql-yoga/plugin-defer-stream/1.7.3_4d7de232canaalaxmusko2bteu:
+    resolution: {integrity: sha512-XyGoQsdW0zWUZhCB8yBT4sAhmf4VWLbXXrDYAFwBxJSNv+yJB+rnd8NeML/1MKh0zGwbbnbeeSP1zU1NRXgA+Q==}
+    peerDependencies:
+      graphql: ^15.2.0 || ^16.0.0
+      graphql-yoga: ^3.7.3
+    dependencies:
+      '@graphql-tools/utils': 9.2.1_graphql@16.6.0
+      graphql: 16.6.0
+      graphql-yoga: 3.7.3_graphql@16.6.0
+    dev: false
+
   /@graphql-yoga/subscription/3.1.0:
     resolution: {integrity: sha512-Vc9lh8KzIHyS3n4jBlCbz7zCjcbtQnOBpsymcRvHhFr2cuH+knmRn0EmzimMQ58jQ8kxoRXXC3KJS3RIxSdPIg==}
     dependencies:
@@ -4513,6 +4528,10 @@ packages:
       map-cache: 0.2.2
       path-root: 0.1.1
     dev: true
+
+  /parse-headers/2.0.5:
+    resolution: {integrity: sha512-ft3iAoLOB/MlwbNXgzy43SWGP6sQki2jQvAyBg/zDFAgr9bfNWZIUj42Kw2eJIl8kEi4PbgE6U1Zau/HwI75HA==}
+    dev: false
 
   /parse-json/4.0.0:
     resolution: {integrity: sha512-aOIos8bujGN93/8Ox/jPLh7RwVnPEysynVFE+fQZyg6jKELEHwzgKdLRFHUgXJL6kylijVSBC4BvN9OmsB48Rw==}

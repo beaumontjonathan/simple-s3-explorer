@@ -39,14 +39,15 @@ export default function ObjectTagsTable({ object }: Props) {
   );
 
   return (
-    <section>
-      <Typography.Title level={3}>Tags</Typography.Title>
-      <Table
-        size="small"
-        columns={columns}
-        dataSource={tags}
-        pagination={false}
-      />
-    </section>
+    <Table
+      size="small"
+      columns={columns}
+      dataSource={tags}
+      pagination={false}
+    />
   );
+}
+
+export function ObjectTagsTableLoading() {
+  return <Table size="small" loading columns={columns} pagination={false} />;
 }

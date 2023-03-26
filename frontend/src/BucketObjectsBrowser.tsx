@@ -62,7 +62,7 @@ const columns = (bucketName: string, prefix: string): ColumnsType<DataItem> => [
   },
 ];
 
-export default function BucketObjectsBrowser() {
+const useBucketNameAndPrefix = () => {
   const { bucketName } = useParams<'bucketName'>();
   if (!bucketName) throw new Error('Missing required param bucketName');
 
@@ -70,6 +70,12 @@ export default function BucketObjectsBrowser() {
   const prefixEncoded = searchParams.get('prefix');
   const prefix =
     prefixEncoded === null ? '' : decodeURIComponent(prefixEncoded);
+
+  return { bucketName, prefix };
+};
+
+export default function BucketObjectsBrowser() {
+  const { bucketName, prefix } = useBucketNameAndPrefix();
 
   const { bucket } = useLazyLoadQuery<BucketObjectsBrowserQuery>(
     graphql`
@@ -107,5 +113,12 @@ export default function BucketObjectsBrowser() {
       dataSource={[...bucket.prefix.commonPrefixes, ...bucket.prefix.objects]}
     />
   );
-  // return <div>hi there!</div>;
+}
+
+export function BucketObjectsBrowserLoading() {
+  const { bucketName, prefix } = useBucketNameAndPrefix();
+
+  return (
+    <Table pagination={false} columns={columns(bucketName, prefix)} loading />
+  );
 }

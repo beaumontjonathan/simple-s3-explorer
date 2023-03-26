@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bb86480f601b1400c0adc0bd74c1fa53>>
+ * @generated SignedSource<<76ab2e197b054d580df66c4e7ad1b23d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,42 +10,46 @@
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ObjectsTable_bucket$data = {
-  readonly name: string;
-  readonly objects: ReadonlyArray<{
+export type ObjectPropertiesObject_bucket$data = {
+  readonly object: {
     readonly etag: string;
     readonly key: string;
     readonly lastModified: string;
     readonly size: number;
     readonly storageClass: string;
-  }>;
-  readonly " $fragmentType": "ObjectsTable_bucket";
+    readonly " $fragmentSpreads": FragmentRefs<"ObjectMetadataTable_object" | "ObjectTagsTable_object">;
+  } | null;
+  readonly " $fragmentType": "ObjectPropertiesObject_bucket";
 };
-export type ObjectsTable_bucket$key = {
-  readonly " $data"?: ObjectsTable_bucket$data;
-  readonly " $fragmentSpreads": FragmentRefs<"ObjectsTable_bucket">;
+export type ObjectPropertiesObject_bucket$key = {
+  readonly " $data"?: ObjectPropertiesObject_bucket$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ObjectPropertiesObject_bucket">;
 };
 
 const node: ReaderFragment = {
-  "argumentDefinitions": [],
+  "argumentDefinitions": [
+    {
+      "kind": "RootArgument",
+      "name": "objectKey"
+    }
+  ],
   "kind": "Fragment",
   "metadata": null,
-  "name": "ObjectsTable_bucket",
+  "name": "ObjectPropertiesObject_bucket",
   "selections": [
     {
       "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "name",
-      "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "concreteType": "ListedBucketObject",
+      "args": [
+        {
+          "kind": "Variable",
+          "name": "objectKey",
+          "variableName": "objectKey"
+        }
+      ],
+      "concreteType": "BucketObject",
       "kind": "LinkedField",
-      "name": "objects",
-      "plural": true,
+      "name": "object",
+      "plural": false,
       "selections": [
         {
           "alias": null,
@@ -81,6 +85,26 @@ const node: ReaderFragment = {
           "kind": "ScalarField",
           "name": "lastModified",
           "storageKey": null
+        },
+        {
+          "kind": "Defer",
+          "selections": [
+            {
+              "args": null,
+              "kind": "FragmentSpread",
+              "name": "ObjectTagsTable_object"
+            }
+          ]
+        },
+        {
+          "kind": "Defer",
+          "selections": [
+            {
+              "args": null,
+              "kind": "FragmentSpread",
+              "name": "ObjectMetadataTable_object"
+            }
+          ]
         }
       ],
       "storageKey": null
@@ -90,6 +114,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "f4c8672994131f521606e2f9bb84c10f";
+(node as any).hash = "d973e5d0914143cfc2011354d665a90d";
 
 export default node;

@@ -4,13 +4,17 @@ import { RelayEnvironmentProvider } from 'react-relay';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { environment } from './relay';
 import './index.css';
-import Buckets from './Buckets';
+import Buckets, { BucketsLoading } from './Buckets';
 import Bucket from './Bucket';
 import BucketObject from './BucketObject';
 import Breadcrumb from './components/Breadcrumb';
 import PageLoading from './components/PageLoading';
-import BucketObjectsList from './BucketObjectsList';
-import BucketObjectsBrowser from './BucketObjectsBrowser';
+import BucketObjectsList, {
+  BucketObjectsListLoading,
+} from './BucketObjectsList';
+import BucketObjectsBrowser, {
+  BucketObjectsBrowserLoading,
+} from './BucketObjectsBrowser';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +32,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Buckets />,
+        element: (
+          <Suspense fallback={<BucketsLoading />}>
+            <Buckets />
+          </Suspense>
+        ),
       },
       {
         path: '/bucket/:bucketName',
@@ -36,11 +44,19 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/bucket/:bucketName',
-            element: <BucketObjectsList />,
+            element: (
+              <Suspense fallback={<BucketObjectsListLoading />}>
+                <BucketObjectsList />
+              </Suspense>
+            ),
           },
           {
             path: '/bucket/:bucketName/browser',
-            element: <BucketObjectsBrowser />,
+            element: (
+              <Suspense fallback={<BucketObjectsBrowserLoading />}>
+                <BucketObjectsBrowser />
+              </Suspense>
+            ),
           },
         ],
       },

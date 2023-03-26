@@ -68,13 +68,26 @@ export default function ObjectsTable({ bucket }: Props) {
   );
 
   return (
-    <section>
-      <Table
-        size="small"
-        columns={columns(bucketName)}
-        dataSource={objects}
-        pagination={false}
-      />
-    </section>
+    <Table
+      size="small"
+      columns={columns(bucketName)}
+      dataSource={objects}
+      pagination={false}
+    />
+  );
+}
+
+type ObjectsTableLoadingProps = {
+  bucketName: string;
+};
+
+export function ObjectsTableLoading({ bucketName }: ObjectsTableLoadingProps) {
+  return (
+    <Table
+      size="small"
+      columns={columns(bucketName)}
+      pagination={false}
+      loading
+    />
   );
 }

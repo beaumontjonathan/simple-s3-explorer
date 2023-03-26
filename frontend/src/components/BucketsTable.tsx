@@ -33,7 +33,7 @@ export default function BucketsTable({ query }: Props) {
   const { buckets } = useFragment(
     graphql`
       fragment BucketsTable_query on Query {
-        buckets {
+        buckets(first: 10) {
           name
           createdAt
         }
@@ -43,13 +43,22 @@ export default function BucketsTable({ query }: Props) {
   );
 
   return (
-    <section>
-      <Table
-        size="small"
-        columns={columns}
-        dataSource={buckets}
-        // pagination={false}
-      />
-    </section>
+    <Table
+      size="small"
+      columns={columns}
+      dataSource={buckets}
+      // pagination={false}
+    />
+  );
+}
+
+export function BucketsTableLoading() {
+  return (
+    <Table
+      size="small"
+      columns={columns}
+      loading
+      // pagination={false}
+    />
   );
 }

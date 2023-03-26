@@ -1,6 +1,6 @@
 import { Typography } from 'antd';
 import { graphql, useLazyLoadQuery } from 'react-relay';
-import BucketsTable from './components/BucketsTable';
+import BucketsTable, { BucketsTableLoading } from './components/BucketsTable';
 import { BucketsQuery } from './__generated__/BucketsQuery.graphql';
 
 export default function Buckets() {
@@ -17,6 +17,15 @@ export default function Buckets() {
     <>
       <Typography.Title>Simple S3 Explorer</Typography.Title>
       <BucketsTable query={query} />
+    </>
+  );
+}
+
+export function BucketsLoading() {
+  return (
+    <>
+      <Typography.Title>Simple S3 Explorer</Typography.Title>
+      <BucketsTableLoading />
     </>
   );
 }
