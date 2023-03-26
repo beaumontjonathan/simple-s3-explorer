@@ -63,5 +63,15 @@ export default function Breadcrumb() {
     }
   }
 
-  return <AntdBreadcrumb items={items} />;
+  return (
+    <AntdBreadcrumb
+      items={items}
+      style={{
+        position: 'sticky',
+        top: 0,
+        backgroundColor: 'white',
+        zIndex: 1,
+      }}
+    />
+  );
 }
