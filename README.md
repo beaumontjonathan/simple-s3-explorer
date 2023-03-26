@@ -25,11 +25,15 @@ Your default AWS profile is used unless otherwise specified. This can be configu
 
 After pulling the repo, run the following commands to install dependencies, build, then start the app.
 
+Ports `4000` & `5000` are used, so make sure no processes on your machine are using them already.
+
 ```sh
 $ pnpm install
 $ pnpm build
 $ pnpm start
 ```
+
+The app should now be accessible on http://localhost:5000.
 
 #### Running with a different AWS Profile
 
