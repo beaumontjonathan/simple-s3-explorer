@@ -5,7 +5,7 @@ import ObjectMetadataTable, {
   ObjectMetadataTableLoading,
 } from './ObjectMetadataTable';
 import ObjectTagsTable, { ObjectTagsTableLoading } from './ObjectTagsTable';
-import { formatBytes } from '../helpers';
+import { formatBytes, useProfileName } from '../helpers';
 import { ObjectPropertiesObject_bucket$key } from '../__generated__/ObjectPropertiesObject_bucket.graphql';
 import { ReactNode, Suspense } from 'react';
 import { ObjectPropertiesQuery } from '../__generated__/ObjectPropertiesQuery.graphql';
@@ -97,17 +97,26 @@ function Inner({
 }
 
 export default function ObjectProperties({ bucketName, objectKey }: Props) {
-  const { bucket } = useLazyLoadQuery<ObjectPropertiesQuery>(
+  const profileName = useProfileName();
+  const {
+    profile: { bucket },
+  } = useLazyLoadQuery<ObjectPropertiesQuery>(
     graphql`
-      query ObjectPropertiesQuery($bucketName: String!, $objectKey: String!) {
-        bucket(name: $bucketName) {
-          name
-          region
-          ...ObjectPropertiesObject_bucket @defer
+      query ObjectPropertiesQuery(
+        $profileName: String!
+        $bucketName: String!
+        $objectKey: String!
+      ) {
+        profile(name: $profileName) @required(action: THROW) {
+          bucket(name: $bucketName) {
+            name
+            region
+            ...ObjectPropertiesObject_bucket @defer
+          }
         }
       }
     `,
-    { bucketName, objectKey }
+    { profileName, bucketName, objectKey }
   );
 
   return (

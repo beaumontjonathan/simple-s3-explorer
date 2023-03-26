@@ -1,6 +1,13 @@
 import { ObjectStorageClass } from '@aws-sdk/client-s3';
+import { AwsCredentialIdentityProvider } from '@aws-sdk/types';
+
+export type Profile = {
+  credentials: AwsCredentialIdentityProvider;
+  name: string;
+};
 
 export type Bucket = {
+  credentials: AwsCredentialIdentityProvider;
   name: string;
   region: string;
 };
@@ -11,6 +18,7 @@ export type ListedBucket = {
 };
 
 export type BucketObject = {
+  credentials: AwsCredentialIdentityProvider;
   bucketName: string;
   bucketRegion: string;
   key: string;

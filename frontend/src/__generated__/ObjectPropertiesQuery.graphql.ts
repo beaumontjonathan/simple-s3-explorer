@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ee714b49370f9be59969b7b48f0c30d2>>
+ * @generated SignedSource<<4327b0de31b4cc3cbd7f1d7284c11d92>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,13 +13,16 @@ import { FragmentRefs } from 'relay-runtime';
 export type ObjectPropertiesQuery$variables = {
   bucketName: string;
   objectKey: string;
+  profileName: string;
 };
 export type ObjectPropertiesQuery$data = {
-  readonly bucket: {
-    readonly name: string;
-    readonly region: string;
-    readonly ' $fragmentSpreads': FragmentRefs<'ObjectPropertiesObject_bucket'>;
-  } | null;
+  readonly profile: {
+    readonly bucket: {
+      readonly name: string;
+      readonly region: string;
+      readonly ' $fragmentSpreads': FragmentRefs<'ObjectPropertiesObject_bucket'>;
+    } | null;
+  };
 };
 export type ObjectPropertiesQuery = {
   response: ObjectPropertiesQuery$data;
@@ -27,47 +30,57 @@ export type ObjectPropertiesQuery = {
 };
 
 const node: ConcreteRequest = (function () {
-  var v0 = [
+  var v0 = {
+      defaultValue: null,
+      kind: 'LocalArgument',
+      name: 'bucketName',
+    },
+    v1 = {
+      defaultValue: null,
+      kind: 'LocalArgument',
+      name: 'objectKey',
+    },
+    v2 = {
+      defaultValue: null,
+      kind: 'LocalArgument',
+      name: 'profileName',
+    },
+    v3 = [
       {
-        defaultValue: null,
-        kind: 'LocalArgument',
-        name: 'bucketName',
-      },
-      {
-        defaultValue: null,
-        kind: 'LocalArgument',
-        name: 'objectKey',
+        kind: 'Variable',
+        name: 'name',
+        variableName: 'profileName',
       },
     ],
-    v1 = [
+    v4 = [
       {
         kind: 'Variable',
         name: 'name',
         variableName: 'bucketName',
       },
     ],
-    v2 = {
+    v5 = {
       alias: null,
       args: null,
       kind: 'ScalarField',
       name: 'name',
       storageKey: null,
     },
-    v3 = {
+    v6 = {
       alias: null,
       args: null,
       kind: 'ScalarField',
       name: 'region',
       storageKey: null,
     },
-    v4 = {
+    v7 = {
       alias: null,
       args: null,
       kind: 'ScalarField',
       name: 'key',
       storageKey: null,
     },
-    v5 = {
+    v8 = {
       alias: null,
       args: null,
       kind: 'ScalarField',
@@ -76,33 +89,49 @@ const node: ConcreteRequest = (function () {
     };
   return {
     fragment: {
-      argumentDefinitions: v0 /*: any*/,
+      argumentDefinitions: [v0 /*: any*/, v1 /*: any*/, v2 /*: any*/],
       kind: 'Fragment',
       metadata: null,
       name: 'ObjectPropertiesQuery',
       selections: [
         {
-          alias: null,
-          args: v1 /*: any*/,
-          concreteType: 'Bucket',
-          kind: 'LinkedField',
-          name: 'bucket',
-          plural: false,
-          selections: [
-            v2 /*: any*/,
-            v3 /*: any*/,
-            {
-              kind: 'Defer',
-              selections: [
-                {
-                  args: null,
-                  kind: 'FragmentSpread',
-                  name: 'ObjectPropertiesObject_bucket',
-                },
-              ],
-            },
-          ],
-          storageKey: null,
+          kind: 'RequiredField',
+          field: {
+            alias: null,
+            args: v3 /*: any*/,
+            concreteType: 'Profile',
+            kind: 'LinkedField',
+            name: 'profile',
+            plural: false,
+            selections: [
+              {
+                alias: null,
+                args: v4 /*: any*/,
+                concreteType: 'Bucket',
+                kind: 'LinkedField',
+                name: 'bucket',
+                plural: false,
+                selections: [
+                  v5 /*: any*/,
+                  v6 /*: any*/,
+                  {
+                    kind: 'Defer',
+                    selections: [
+                      {
+                        args: null,
+                        kind: 'FragmentSpread',
+                        name: 'ObjectPropertiesObject_bucket',
+                      },
+                    ],
+                  },
+                ],
+                storageKey: null,
+              },
+            ],
+            storageKey: null,
+          },
+          action: 'THROW',
+          path: 'profile',
         },
       ],
       type: 'Query',
@@ -110,119 +139,130 @@ const node: ConcreteRequest = (function () {
     },
     kind: 'Request',
     operation: {
-      argumentDefinitions: v0 /*: any*/,
+      argumentDefinitions: [v2 /*: any*/, v0 /*: any*/, v1 /*: any*/],
       kind: 'Operation',
       name: 'ObjectPropertiesQuery',
       selections: [
         {
           alias: null,
-          args: v1 /*: any*/,
-          concreteType: 'Bucket',
+          args: v3 /*: any*/,
+          concreteType: 'Profile',
           kind: 'LinkedField',
-          name: 'bucket',
+          name: 'profile',
           plural: false,
           selections: [
-            v2 /*: any*/,
-            v3 /*: any*/,
             {
-              if: null,
-              kind: 'Defer',
-              label:
-                'ObjectPropertiesQuery$defer$ObjectPropertiesObject_bucket',
+              alias: null,
+              args: v4 /*: any*/,
+              concreteType: 'Bucket',
+              kind: 'LinkedField',
+              name: 'bucket',
+              plural: false,
               selections: [
+                v5 /*: any*/,
+                v6 /*: any*/,
                 {
-                  alias: null,
-                  args: [
-                    {
-                      kind: 'Variable',
-                      name: 'objectKey',
-                      variableName: 'objectKey',
-                    },
-                  ],
-                  concreteType: 'BucketObject',
-                  kind: 'LinkedField',
-                  name: 'object',
-                  plural: false,
+                  if: null,
+                  kind: 'Defer',
+                  label:
+                    'ObjectPropertiesQuery$defer$ObjectPropertiesObject_bucket',
                   selections: [
-                    v4 /*: any*/,
                     {
                       alias: null,
-                      args: null,
-                      kind: 'ScalarField',
-                      name: 'etag',
-                      storageKey: null,
-                    },
-                    {
-                      alias: null,
-                      args: null,
-                      kind: 'ScalarField',
-                      name: 'size',
-                      storageKey: null,
-                    },
-                    {
-                      alias: null,
-                      args: null,
-                      kind: 'ScalarField',
-                      name: 'storageClass',
-                      storageKey: null,
-                    },
-                    {
-                      alias: null,
-                      args: null,
-                      kind: 'ScalarField',
-                      name: 'lastModified',
-                      storageKey: null,
-                    },
-                    {
-                      if: null,
-                      kind: 'Defer',
-                      label:
-                        'ObjectPropertiesObject_bucket$defer$ObjectTagsTable_object',
-                      selections: [
+                      args: [
                         {
-                          alias: null,
-                          args: null,
-                          concreteType: 'BucketObjectTag',
-                          kind: 'LinkedField',
-                          name: 'tags',
-                          plural: true,
-                          selections: [v4 /*: any*/, v5 /*: any*/],
-                          storageKey: null,
+                          kind: 'Variable',
+                          name: 'objectKey',
+                          variableName: 'objectKey',
                         },
                       ],
-                    },
-                    {
-                      if: null,
-                      kind: 'Defer',
-                      label:
-                        'ObjectPropertiesObject_bucket$defer$ObjectMetadataTable_object',
+                      concreteType: 'BucketObject',
+                      kind: 'LinkedField',
+                      name: 'object',
+                      plural: false,
                       selections: [
+                        v7 /*: any*/,
                         {
                           alias: null,
                           args: null,
-                          concreteType: 'BucketObjectMetadataItem',
-                          kind: 'LinkedField',
-                          name: 'metadata',
-                          plural: true,
+                          kind: 'ScalarField',
+                          name: 'etag',
+                          storageKey: null,
+                        },
+                        {
+                          alias: null,
+                          args: null,
+                          kind: 'ScalarField',
+                          name: 'size',
+                          storageKey: null,
+                        },
+                        {
+                          alias: null,
+                          args: null,
+                          kind: 'ScalarField',
+                          name: 'storageClass',
+                          storageKey: null,
+                        },
+                        {
+                          alias: null,
+                          args: null,
+                          kind: 'ScalarField',
+                          name: 'lastModified',
+                          storageKey: null,
+                        },
+                        {
+                          if: null,
+                          kind: 'Defer',
+                          label:
+                            'ObjectPropertiesObject_bucket$defer$ObjectTagsTable_object',
                           selections: [
-                            v4 /*: any*/,
-                            v5 /*: any*/,
                             {
                               alias: null,
                               args: null,
-                              kind: 'ScalarField',
-                              name: 'userDefined',
+                              concreteType: 'BucketObjectTag',
+                              kind: 'LinkedField',
+                              name: 'tags',
+                              plural: true,
+                              selections: [v7 /*: any*/, v8 /*: any*/],
                               storageKey: null,
                             },
                           ],
-                          storageKey: null,
+                        },
+                        {
+                          if: null,
+                          kind: 'Defer',
+                          label:
+                            'ObjectPropertiesObject_bucket$defer$ObjectMetadataTable_object',
+                          selections: [
+                            {
+                              alias: null,
+                              args: null,
+                              concreteType: 'BucketObjectMetadataItem',
+                              kind: 'LinkedField',
+                              name: 'metadata',
+                              plural: true,
+                              selections: [
+                                v7 /*: any*/,
+                                v8 /*: any*/,
+                                {
+                                  alias: null,
+                                  args: null,
+                                  kind: 'ScalarField',
+                                  name: 'userDefined',
+                                  storageKey: null,
+                                },
+                              ],
+                              storageKey: null,
+                            },
+                          ],
                         },
                       ],
+                      storageKey: null,
                     },
                   ],
-                  storageKey: null,
                 },
               ],
+              storageKey: null,
             },
           ],
           storageKey: null,
@@ -230,16 +270,16 @@ const node: ConcreteRequest = (function () {
       ],
     },
     params: {
-      cacheID: 'f12018a4b88c7538ebb8f32d9793500d',
+      cacheID: '6d362e19f27a0364e61157b187a5b1b8',
       id: null,
       metadata: {},
       name: 'ObjectPropertiesQuery',
       operationKind: 'query',
-      text: 'query ObjectPropertiesQuery(\n  $bucketName: String!\n  $objectKey: String!\n) {\n  bucket(name: $bucketName) {\n    name\n    region\n    ...ObjectPropertiesObject_bucket @defer(label: "ObjectPropertiesQuery$defer$ObjectPropertiesObject_bucket")\n  }\n}\n\nfragment ObjectMetadataTable_object on BucketObject {\n  metadata {\n    key\n    value\n    userDefined\n  }\n}\n\nfragment ObjectPropertiesObject_bucket on Bucket {\n  object(objectKey: $objectKey) {\n    key\n    etag\n    size\n    storageClass\n    lastModified\n    ...ObjectTagsTable_object @defer(label: "ObjectPropertiesObject_bucket$defer$ObjectTagsTable_object")\n    ...ObjectMetadataTable_object @defer(label: "ObjectPropertiesObject_bucket$defer$ObjectMetadataTable_object")\n  }\n}\n\nfragment ObjectTagsTable_object on BucketObject {\n  tags {\n    key\n    value\n  }\n}\n',
+      text: 'query ObjectPropertiesQuery(\n  $profileName: String!\n  $bucketName: String!\n  $objectKey: String!\n) {\n  profile(name: $profileName) {\n    bucket(name: $bucketName) {\n      name\n      region\n      ...ObjectPropertiesObject_bucket @defer(label: "ObjectPropertiesQuery$defer$ObjectPropertiesObject_bucket")\n    }\n  }\n}\n\nfragment ObjectMetadataTable_object on BucketObject {\n  metadata {\n    key\n    value\n    userDefined\n  }\n}\n\nfragment ObjectPropertiesObject_bucket on Bucket {\n  object(objectKey: $objectKey) {\n    key\n    etag\n    size\n    storageClass\n    lastModified\n    ...ObjectTagsTable_object @defer(label: "ObjectPropertiesObject_bucket$defer$ObjectTagsTable_object")\n    ...ObjectMetadataTable_object @defer(label: "ObjectPropertiesObject_bucket$defer$ObjectMetadataTable_object")\n  }\n}\n\nfragment ObjectTagsTable_object on BucketObject {\n  tags {\n    key\n    value\n  }\n}\n',
     },
   };
 })();
 
-(node as any).hash = '94b4a7e183fb7e5c8599a3d16ad2cf32';
+(node as any).hash = 'e3215174d41c2986594b6d07c928c9fa';
 
 export default node;

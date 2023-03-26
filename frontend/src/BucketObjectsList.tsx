@@ -3,6 +3,7 @@ import { graphql, useLazyLoadQuery } from 'react-relay';
 import { BucketObjectsListQuery } from './__generated__/BucketObjectsListQuery.graphql';
 import ObjectsTable, { ObjectsTableLoading } from './components/ObjectsTable';
 import { BucketNotFoundError } from './errors';
+import { useProfileName } from './helpers';
 
 const useBucketName = () => {
   const { bucketName } = useParams<'bucketName'>();
@@ -12,17 +13,25 @@ const useBucketName = () => {
 
 export default function BucketObjectsList() {
   const bucketName = useBucketName();
-  const { bucket } = useLazyLoadQuery<BucketObjectsListQuery>(
+  const profileName = useProfileName();
+  const {
+    profile: { bucket },
+  } = useLazyLoadQuery<BucketObjectsListQuery>(
     graphql`
-      query BucketObjectsListQuery($bucketName: String!) {
-        bucket(name: $bucketName) {
-          name
-          region
-          ...ObjectsTable_bucket
+      query BucketObjectsListQuery(
+        $profileName: String!
+        $bucketName: String!
+      ) {
+        profile(name: $profileName) @required(action: THROW) {
+          bucket(name: $bucketName) {
+            name
+            region
+            ...ObjectsTable_bucket
+          }
         }
       }
     `,
-    { bucketName }
+    { profileName, bucketName }
   );
 
   if (bucket === null) throw new BucketNotFoundError({ bucketName });

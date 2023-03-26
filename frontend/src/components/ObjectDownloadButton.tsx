@@ -3,6 +3,7 @@ import { graphql } from 'relay-runtime';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { ObjectDownloadButtonMutation } from '../__generated__/ObjectDownloadButtonMutation.graphql';
+import { useProfileName } from '../helpers';
 
 type Props = {
   bucketName: string;
@@ -10,14 +11,20 @@ type Props = {
 };
 
 export default function ObjectDownloadButton({ bucketName, objectKey }: Props) {
+  const profileName = useProfileName();
   const [generateObjectDownloadUrl, mutationInFlight] =
     useMutation<ObjectDownloadButtonMutation>(
       graphql`
         mutation ObjectDownloadButtonMutation(
+          $profileName: String!
           $bucketName: String!
           $objectKey: String!
         ) {
-          generateObjectDownloadUrl(bucket: $bucketName, key: $objectKey)
+          generateObjectDownloadUrl(
+            profile: $profileName
+            bucket: $bucketName
+            key: $objectKey
+          )
         }
       `
     );
@@ -29,6 +36,7 @@ export default function ObjectDownloadButton({ bucketName, objectKey }: Props) {
       onClick={() => {
         generateObjectDownloadUrl({
           variables: {
+            profileName,
             bucketName,
             objectKey,
           },

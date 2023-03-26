@@ -10,6 +10,7 @@ const tsResolversPluginConfig: TypeScriptResolversPluginConfig = {
   defaultMapper: 'unknown',
   mapperTypeSuffix: 'GraphQL',
   mappers: {
+    Profile: '../schema/types#Profile',
     Bucket: '../schema/types#Bucket',
     ListedBucket: '../schema/types#ListedBucket',
     BucketObject: '../schema/types#BucketObject',

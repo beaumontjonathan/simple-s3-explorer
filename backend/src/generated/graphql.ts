@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
 import {
+  Profile as ProfileGraphQL,
   Bucket as BucketGraphQL,
   ListedBucket as ListedBucketGraphQL,
   BucketObject as BucketObjectGraphQL,
@@ -112,21 +113,37 @@ export type Mutation = {
 export type MutationGenerateObjectDownloadUrlArgs = {
   bucket: Scalars['String'];
   key: Scalars['String'];
+  profile: Scalars['String'];
+};
+
+export type Profile = {
+  __typename?: 'Profile';
+  bucket: Maybe<Bucket>;
+  buckets: Array<ListedBucket>;
+  name: Maybe<Scalars['String']>;
+};
+
+export type ProfileBucketArgs = {
+  name: Scalars['String'];
+};
+
+export type ProfileBucketsArgs = {
+  first: InputMaybe<Scalars['Int']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  bucket: Maybe<Bucket>;
-  buckets: Array<ListedBucket>;
   hello: Maybe<Scalars['String']>;
+  /**
+   * AWS profile, if omitted the default from the AWS_PROFILE environment
+   * variable is used.
+   */
+  profile: Maybe<Profile>;
+  profiles: Array<Profile>;
 };
 
-export type QueryBucketArgs = {
-  name: Scalars['String'];
-};
-
-export type QueryBucketsArgs = {
-  first: InputMaybe<Scalars['Int']>;
+export type QueryProfileArgs = {
+  name: InputMaybe<Scalars['String']>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -247,6 +264,7 @@ export type ResolversTypes = {
   ListedBucket: ResolverTypeWrapper<ListedBucketGraphQL>;
   ListedBucketObject: ResolverTypeWrapper<ListedBucketObjectGraphQL>;
   Mutation: ResolverTypeWrapper<{}>;
+  Profile: ResolverTypeWrapper<ProfileGraphQL>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<unknown>;
 };
@@ -264,6 +282,7 @@ export type ResolversParentTypes = {
   ListedBucket: ListedBucketGraphQL;
   ListedBucketObject: ListedBucketObjectGraphQL;
   Mutation: {};
+  Profile: ProfileGraphQL;
   Query: {};
   String: unknown;
 };
@@ -416,27 +435,45 @@ export type MutationResolvers<
     ResolversTypes['String'],
     ParentType,
     ContextType,
-    RequireFields<MutationGenerateObjectDownloadUrlArgs, 'bucket' | 'key'>
+    RequireFields<
+      MutationGenerateObjectDownloadUrlArgs,
+      'bucket' | 'key' | 'profile'
+    >
   >;
+};
+
+export type ProfileResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Profile'] = ResolversParentTypes['Profile']
+> = {
+  bucket: Resolver<
+    Maybe<ResolversTypes['Bucket']>,
+    ParentType,
+    ContextType,
+    RequireFields<ProfileBucketArgs, 'name'>
+  >;
+  buckets: Resolver<
+    Array<ResolversTypes['ListedBucket']>,
+    ParentType,
+    ContextType,
+    Partial<ProfileBucketsArgs>
+  >;
+  name: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  bucket: Resolver<
-    Maybe<ResolversTypes['Bucket']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryBucketArgs, 'name'>
-  >;
-  buckets: Resolver<
-    Array<ResolversTypes['ListedBucket']>,
-    ParentType,
-    ContextType,
-    Partial<QueryBucketsArgs>
-  >;
   hello: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  profile: Resolver<
+    Maybe<ResolversTypes['Profile']>,
+    ParentType,
+    ContextType,
+    Partial<QueryProfileArgs>
+  >;
+  profiles: Resolver<Array<ResolversTypes['Profile']>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -449,6 +486,7 @@ export type Resolvers<ContextType = any> = {
   ListedBucket: ListedBucketResolvers<ContextType>;
   ListedBucketObject: ListedBucketObjectResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
+  Profile: ProfileResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
 };
 

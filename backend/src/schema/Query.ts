@@ -1,32 +1,32 @@
+import { S3Client, ListBucketsCommand, NoSuchBucket } from '@aws-sdk/client-s3';
 import {
-  S3Client,
-  ListBucketsCommand,
-  GetBucketLocationCommand,
-  NoSuchBucket,
-} from '@aws-sdk/client-s3';
+  loadSharedConfigFiles,
+  getProfileName,
+} from '@aws-sdk/shared-ini-file-loader';
+import { fromIni } from '@aws-sdk/credential-providers';
 import { QueryResolvers } from '../generated/graphql';
 import { getRegionForBucket } from '../helpers';
+import { GraphQLError } from 'graphql';
 
 export const Query: QueryResolvers = {
   hello: () => 'world',
-  buckets: async (_, { first }) => {
-    const response = await new S3Client({}).send(new ListBucketsCommand({}));
-    const { Buckets: buckets = [] } = response;
-    return buckets
-      .flatMap(({ Name: name, CreationDate: createdAt }) =>
-        name ? { name, createdAt: createdAt?.toISOString() ?? '' } : []
-      )
-      .slice(0, first ?? undefined);
-  },
-  bucket: async (_, { name }) => {
-    try {
-      const region = await getRegionForBucket(name);
-
-      return { name, region };
-    } catch (error) {
-      if (error instanceof NoSuchBucket) return null;
-
-      throw error;
+  profile: async (_, { name }) => {
+    const profileName = getProfileName({ profile: name ?? undefined });
+    const { configFile } = await loadSharedConfigFiles();
+    if (profileName in configFile) {
+      return {
+        credentials: fromIni({ profile: profileName }),
+        name: profileName,
+      };
     }
+    throw new GraphQLError('Unknown profile');
+  },
+  profiles: async () => {
+    const { configFile } = await loadSharedConfigFiles();
+    const profileNames = Object.keys(configFile);
+    return profileNames.map((name) => ({
+      credentials: fromIni({ profile: name }),
+      name,
+    }));
   },
 };

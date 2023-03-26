@@ -1,10 +1,22 @@
 import { Breadcrumb as AntdBreadcrumb } from 'antd';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+  useSearchParams,
+  createSearchParams,
+} from 'react-router-dom';
+import {
+  useProfileName,
+  useSetProfileName,
+  useWithProfileNameParam,
+  WithProfileNameParam,
+} from '../helpers';
 
 const linkBreadcrumbsFromKey = (
   key: string,
   bucketName: string,
-  isObjectKey: boolean
+  isObjectKey: boolean,
+  withProfileNameParam: WithProfileNameParam
 ) => {
   const prefixParts = key.split('/');
   while (prefixParts.at(-1) === '' && !isObjectKey) prefixParts.pop();
@@ -15,9 +27,16 @@ const linkBreadcrumbsFromKey = (
       ) : (
         <Link
           key={part}
-          to={`/bucket/${bucketName}/browser?prefix=${encodeURIComponent(
-            prefixParts.slice(0, index + 1).join('/') + '/'
-          )}`}
+          to={{
+            pathname: `/bucket/${bucketName}/browser`,
+            search: createSearchParams(
+              withProfileNameParam({
+                prefix: encodeURIComponent(
+                  prefixParts.slice(0, index + 1).join('/') + '/'
+                ),
+              })
+            ).toString(),
+          }}
         >
           {part}
         </Link>
@@ -26,6 +45,7 @@ const linkBreadcrumbsFromKey = (
 };
 
 export default function Breadcrumb() {
+  const withProfileNameParam = useWithProfileNameParam();
   const { bucketName } = useParams();
   const [searchParams] = useSearchParams();
   const objectKeyString = searchParams.get('objectKey');
@@ -36,7 +56,18 @@ export default function Breadcrumb() {
 
   const items = [
     {
-      title: hasBucketName ? <Link to="/">S3 Buckets</Link> : 'S3 Buckets',
+      title: hasBucketName ? (
+        <Link
+          to={{
+            pathname: '/',
+            search: createSearchParams(withProfileNameParam({})).toString(),
+          }}
+        >
+          S3 Buckets
+        </Link>
+      ) : (
+        'S3 Buckets'
+      ),
     },
   ];
 
@@ -44,13 +75,36 @@ export default function Breadcrumb() {
     if (hasPrefix) {
       const prefix = decodeURIComponent(prefixString);
       items.push({
-        title: <Link to={`/bucket/${bucketName}/browser`}>{bucketName}</Link>,
+        title: (
+          <Link
+            to={{
+              pathname: `/bucket/${bucketName}/browser`,
+              search: createSearchParams(withProfileNameParam({})).toString(),
+            }}
+          >
+            {bucketName}
+          </Link>
+        ),
       });
-      items.push(...linkBreadcrumbsFromKey(prefix, bucketName, false));
+      items.push(
+        ...linkBreadcrumbsFromKey(
+          prefix,
+          bucketName,
+          false,
+          withProfileNameParam
+        )
+      );
     } else {
       items.push({
         title: hasObjectKey ? (
-          <Link to={`/bucket/${bucketName}/browser`}>{bucketName}</Link>
+          <Link
+            to={{
+              pathname: `/bucket/${bucketName}/browser`,
+              search: createSearchParams(withProfileNameParam({})).toString(),
+            }}
+          >
+            {bucketName}
+          </Link>
         ) : (
           bucketName
         ),
@@ -58,20 +112,17 @@ export default function Breadcrumb() {
 
       if (hasObjectKey) {
         const objectKey = decodeURIComponent(objectKeyString);
-        items.push(...linkBreadcrumbsFromKey(objectKey, bucketName, true));
+        items.push(
+          ...linkBreadcrumbsFromKey(
+            objectKey,
+            bucketName,
+            true,
+            withProfileNameParam
+          )
+        );
       }
     }
   }
 
-  return (
-    <AntdBreadcrumb
-      items={items}
-      style={{
-        position: 'sticky',
-        top: 0,
-        backgroundColor: 'white',
-        zIndex: 1,
-      }}
-    />
-  );
+  return <AntdBreadcrumb items={items} />;
 }

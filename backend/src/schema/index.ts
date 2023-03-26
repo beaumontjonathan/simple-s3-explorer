@@ -12,10 +12,12 @@ import { BucketCommonPrefix } from './BucketCommonPrefix';
 import { BucketObjectMetadataItem } from './BucketObjectMetadataItem';
 import { BucketObjectTag } from './BucketObjectTag';
 import { BucketPrefix } from './BucketPrefix';
+import { Profile } from './Profile';
 
 const resolvers: Resolvers = {
   Query,
   Mutation,
+  Profile,
   Bucket,
   ListedBucket,
   BucketObject,

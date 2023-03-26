@@ -6,13 +6,14 @@ import {
   NoSuchKey,
   ObjectStorageClass,
 } from '@aws-sdk/client-s3';
+import { fromIni } from '@aws-sdk/credential-providers';
 import { BucketResolvers } from '../generated/graphql';
 
 export const Bucket: BucketResolvers = {
   name: ({ name }) => name,
   region: ({ region }) => region,
-  prefix: async ({ name, region }, { prefix }) => {
-    const results = await new S3Client({ region }).send(
+  prefix: async ({ credentials, name, region }, { prefix }) => {
+    const results = await new S3Client({ region, credentials }).send(
       new ListObjectsV2Command({
         Bucket: name,
         Delimiter: '/',
@@ -41,8 +42,8 @@ export const Bucket: BucketResolvers = {
       ),
     };
   },
-  objects: async ({ name, region }, { first }) => {
-    const res = await new S3Client({ region }).send(
+  objects: async ({ credentials, name, region }, { first }) => {
+    const res = await new S3Client({ region, credentials }).send(
       new ListObjectsV2Command({
         Bucket: name,
         MaxKeys: first ?? undefined,
@@ -66,10 +67,11 @@ export const Bucket: BucketResolvers = {
         : []
     );
   },
-  object: async ({ name, region }, { objectKey }) => {
+  object: async ({ name, region, credentials }, { objectKey }) => {
     try {
       const object = await new S3Client({
         region,
+        credentials,
       }).send(
         new GetObjectAttributesCommand({
           Bucket: name,
@@ -84,6 +86,7 @@ export const Bucket: BucketResolvers = {
       );
 
       return {
+        credentials,
         bucketName: name,
         bucketRegion: region,
         key: objectKey,

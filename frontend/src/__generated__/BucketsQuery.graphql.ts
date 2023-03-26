@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d656f9707fb62b6e9029c0c9efe5cd9c>>
+ * @generated SignedSource<<f6d52487f819ab492616ff3581d14925>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,9 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from 'relay-runtime';
-export type BucketsQuery$variables = {};
+export type BucketsQuery$variables = {
+  profileName: string;
+};
 export type BucketsQuery$data = {
   readonly ' $fragmentSpreads': FragmentRefs<'BucketsTable_query'>;
 };
@@ -19,65 +21,91 @@ export type BucketsQuery = {
   variables: BucketsQuery$variables;
 };
 
-const node: ConcreteRequest = {
-  fragment: {
-    argumentDefinitions: [],
-    kind: 'Fragment',
-    metadata: null,
-    name: 'BucketsQuery',
-    selections: [
-      {
-        args: null,
-        kind: 'FragmentSpread',
-        name: 'BucketsTable_query',
-      },
-    ],
-    type: 'Query',
-    abstractKey: null,
-  },
-  kind: 'Request',
-  operation: {
-    argumentDefinitions: [],
-    kind: 'Operation',
-    name: 'BucketsQuery',
-    selections: [
-      {
-        alias: null,
-        args: null,
-        concreteType: 'ListedBucket',
-        kind: 'LinkedField',
-        name: 'buckets',
-        plural: true,
-        selections: [
-          {
-            alias: null,
-            args: null,
-            kind: 'ScalarField',
-            name: 'name',
-            storageKey: null,
-          },
-          {
-            alias: null,
-            args: null,
-            kind: 'ScalarField',
-            name: 'createdAt',
-            storageKey: null,
-          },
-        ],
-        storageKey: null,
-      },
-    ],
-  },
-  params: {
-    cacheID: '4657e7d81429bfcae789d763dc7c12f6',
-    id: null,
-    metadata: {},
-    name: 'BucketsQuery',
-    operationKind: 'query',
-    text: 'query BucketsQuery {\n  ...BucketsTable_query\n}\n\nfragment BucketsTable_query on Query {\n  buckets {\n    name\n    createdAt\n  }\n}\n',
-  },
-};
+const node: ConcreteRequest = (function () {
+  var v0 = [
+    {
+      defaultValue: null,
+      kind: 'LocalArgument',
+      name: 'profileName',
+    },
+  ];
+  return {
+    fragment: {
+      argumentDefinitions: v0 /*: any*/,
+      kind: 'Fragment',
+      metadata: null,
+      name: 'BucketsQuery',
+      selections: [
+        {
+          args: null,
+          kind: 'FragmentSpread',
+          name: 'BucketsTable_query',
+        },
+      ],
+      type: 'Query',
+      abstractKey: null,
+    },
+    kind: 'Request',
+    operation: {
+      argumentDefinitions: v0 /*: any*/,
+      kind: 'Operation',
+      name: 'BucketsQuery',
+      selections: [
+        {
+          alias: null,
+          args: [
+            {
+              kind: 'Variable',
+              name: 'name',
+              variableName: 'profileName',
+            },
+          ],
+          concreteType: 'Profile',
+          kind: 'LinkedField',
+          name: 'profile',
+          plural: false,
+          selections: [
+            {
+              alias: null,
+              args: null,
+              concreteType: 'ListedBucket',
+              kind: 'LinkedField',
+              name: 'buckets',
+              plural: true,
+              selections: [
+                {
+                  alias: null,
+                  args: null,
+                  kind: 'ScalarField',
+                  name: 'name',
+                  storageKey: null,
+                },
+                {
+                  alias: null,
+                  args: null,
+                  kind: 'ScalarField',
+                  name: 'createdAt',
+                  storageKey: null,
+                },
+              ],
+              storageKey: null,
+            },
+          ],
+          storageKey: null,
+        },
+      ],
+    },
+    params: {
+      cacheID: '1075e6cdb3cb34c9d024a9da72fa0b6c',
+      id: null,
+      metadata: {},
+      name: 'BucketsQuery',
+      operationKind: 'query',
+      text: 'query BucketsQuery(\n  $profileName: String!\n) {\n  ...BucketsTable_query\n}\n\nfragment BucketsTable_query on Query {\n  profile(name: $profileName) {\n    buckets {\n      name\n      createdAt\n    }\n  }\n}\n',
+    },
+  };
+})();
 
-(node as any).hash = '44a623f17d2bc152eebe2d412ff9a26d';
+(node as any).hash = 'cb57b8ab3c5047e467fc296ce2a0154d';
 
 export default node;

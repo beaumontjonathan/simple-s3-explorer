@@ -44,3 +44,10 @@ The AWS profile used by the app can be configured by setting `AWS_PROFILE` envir
 ```sh
 $ AWS_PROFILE=my-secondary-profile pnpm start
 ```
+
+## TODO
+
+- [ ] Development guide frontend/backend
+- [ ] Tests
+- [ ] CI
+- [ ] Electron/bundled app

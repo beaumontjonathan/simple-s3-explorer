@@ -35,6 +35,16 @@ directive @stream(
 
 type Query {
   hello: String
+  profiles: [Profile!]!
+  """
+  AWS profile, if omitted the default from the AWS_PROFILE environment
+  variable is used.
+  """
+  profile(name: String): Profile
+}
+
+type Profile {
+  name: String
   buckets(first: Int): [ListedBucket!]!
   bucket(name: String!): Bucket
 }
@@ -66,7 +76,7 @@ type ListedBucketObject {
   key: String!
   lastModified: String!
   etag: String!
-  size: Int!
+  size: Float!
   storageClass: String!
 }
 
@@ -74,7 +84,7 @@ type BucketObject {
   key: String!
   lastModified: String!
   etag: String!
-  size: Int!
+  size: Float!
   storageClass: String!
   metadata: [BucketObjectMetadataItem!]!
   tags: [BucketObjectTag!]!
@@ -92,5 +102,9 @@ type BucketObjectTag {
 }
 
 type Mutation {
-  generateObjectDownloadUrl(bucket: String!, key: String!): String!
+  generateObjectDownloadUrl(
+    profile: String!
+    bucket: String!
+    key: String!
+  ): String!
 }

@@ -1,7 +1,8 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { graphql, useFragment } from 'react-relay';
-import { Link } from 'react-router-dom';
+import { Link, createSearchParams } from 'react-router-dom';
+import { useWithProfileNameParam, WithProfileNameParam } from '../helpers';
 import {
   BucketsTable_query$data,
   BucketsTable_query$key,
@@ -11,15 +12,24 @@ type Props = {
   query: BucketsTable_query$key;
 };
 
-type DataItem = BucketsTable_query$data['buckets'][number];
+type DataItem = BucketsTable_query$data['profile']['buckets'][number];
 
-const columns: ColumnsType<DataItem> = [
+const columns = (
+  withProfileNameParam: WithProfileNameParam
+): ColumnsType<DataItem> => [
   {
     title: 'Key',
     dataIndex: 'key',
     key: 'key',
     render: (_, bucket) => (
-      <Link to={`/bucket/${bucket.name}/browser`}>{bucket.name}</Link>
+      <Link
+        to={{
+          pathname: `/bucket/${bucket.name}/browser`,
+          search: createSearchParams(withProfileNameParam({})).toString(),
+        }}
+      >
+        {bucket.name}
+      </Link>
     ),
   },
   {
@@ -30,12 +40,17 @@ const columns: ColumnsType<DataItem> = [
 ];
 
 export default function BucketsTable({ query }: Props) {
-  const { buckets } = useFragment(
+  const withProfileNameParam = useWithProfileNameParam();
+  const {
+    profile: { buckets },
+  } = useFragment(
     graphql`
       fragment BucketsTable_query on Query {
-        buckets {
-          name
-          createdAt
+        profile(name: $profileName) @required(action: THROW) {
+          buckets {
+            name
+            createdAt
+          }
         }
       }
     `,
@@ -45,7 +60,7 @@ export default function BucketsTable({ query }: Props) {
   return (
     <Table
       size="small"
-      columns={columns}
+      columns={columns(withProfileNameParam)}
       dataSource={buckets}
       // pagination={false}
     />
@@ -53,10 +68,11 @@ export default function BucketsTable({ query }: Props) {
 }
 
 export function BucketsTableLoading() {
+  const withProfileNameParam = useWithProfileNameParam();
   return (
     <Table
       size="small"
-      columns={columns}
+      columns={columns(withProfileNameParam)}
       loading
       // pagination={false}
     />

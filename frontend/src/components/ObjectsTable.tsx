@@ -1,8 +1,12 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { graphql, useFragment } from 'react-relay';
-import { Link } from 'react-router-dom';
-import { formatBytes } from '../helpers';
+import { createSearchParams, Link } from 'react-router-dom';
+import {
+  formatBytes,
+  useWithProfileNameParam,
+  WithProfileNameParam,
+} from '../helpers';
 import {
   ObjectsTable_bucket$data,
   ObjectsTable_bucket$key,
@@ -14,14 +18,24 @@ type Props = {
 
 type DataItem = ObjectsTable_bucket$data['objects'][number];
 
-const columns = (bucketName: string): ColumnsType<DataItem> => [
+const columns = (
+  bucketName: string,
+  withProfileNameParam: WithProfileNameParam
+): ColumnsType<DataItem> => [
   {
     title: 'Key',
     dataIndex: 'key',
     key: 'key',
     render: (_, object) => (
       <Link
-        to={`/object/${bucketName}?objectKey=${encodeURIComponent(object.key)}`}
+        to={{
+          pathname: `/object/${bucketName}`,
+          search: createSearchParams(
+            withProfileNameParam({
+              objectKey: encodeURIComponent(object.key),
+            })
+          ).toString(),
+        }}
       >
         {object.key}
       </Link>
@@ -51,6 +65,7 @@ const columns = (bucketName: string): ColumnsType<DataItem> => [
 ];
 
 export default function ObjectsTable({ bucket }: Props) {
+  const withProfileNameParam = useWithProfileNameParam();
   const { name: bucketName, objects } = useFragment(
     graphql`
       fragment ObjectsTable_bucket on Bucket {
@@ -70,7 +85,7 @@ export default function ObjectsTable({ bucket }: Props) {
   return (
     <Table
       size="small"
-      columns={columns(bucketName)}
+      columns={columns(bucketName, withProfileNameParam)}
       dataSource={objects}
       pagination={false}
     />
@@ -82,10 +97,11 @@ type ObjectsTableLoadingProps = {
 };
 
 export function ObjectsTableLoading({ bucketName }: ObjectsTableLoadingProps) {
+  const withProfileNameParam = useWithProfileNameParam();
   return (
     <Table
       size="small"
-      columns={columns(bucketName)}
+      columns={columns(bucketName, withProfileNameParam)}
       pagination={false}
       loading
     />

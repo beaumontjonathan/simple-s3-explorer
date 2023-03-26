@@ -13,8 +13,9 @@ export const BucketObject: BucketObjectResolvers = {
   etag: ({ etag }) => etag,
   size: ({ size }) => size,
   storageClass: ({ storageClass }) => storageClass,
-  tags: async ({ bucketRegion, bucketName, key }) => {
+  tags: async ({ credentials, bucketRegion, bucketName, key }) => {
     const { TagSet: tagSet = [] } = await new S3Client({
+      credentials,
       region: bucketRegion,
     }).send(
       new GetObjectTaggingCommand({
@@ -28,8 +29,8 @@ export const BucketObject: BucketObjectResolvers = {
       value: tag.Value ?? '',
     }));
   },
-  metadata: async ({ bucketRegion, bucketName, key }) => {
-    const res = await new S3Client({ region: bucketRegion }).send(
+  metadata: async ({ credentials, bucketRegion, bucketName, key }) => {
+    const res = await new S3Client({ region: bucketRegion, credentials }).send(
       new HeadObjectCommand({
         Bucket: bucketName,
         Key: key,

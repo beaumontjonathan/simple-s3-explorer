@@ -1,17 +1,25 @@
-import { Typography, Tabs } from 'antd';
+import { Typography, Tabs, Space } from 'antd';
 import { FolderOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Suspense } from 'react';
-import { Outlet, useParams, useMatch, useNavigate } from 'react-router-dom';
+import {
+  Outlet,
+  useParams,
+  useMatch,
+  useNavigate,
+  createSearchParams,
+} from 'react-router-dom';
 import PageLoading from './components/PageLoading';
+import { useWithProfileNameParam } from './helpers';
 
 export default function Bucket() {
   const { bucketName } = useParams<'bucketName'>();
+  const withProfileNameParam = useWithProfileNameParam();
   if (!bucketName) throw new Error('Missing required param bucketName');
   const navigate = useNavigate();
 
   const match = useMatch('/bucket/:bucketName/browser');
   const isBrowser = match !== null;
-  const activeKey = isBrowser ? 'browser' : 'list';
+  const activeKey = isBrowser ? 'browser' : 'objects';
 
   return (
     <>
@@ -20,31 +28,49 @@ export default function Bucket() {
         items={[
           {
             label: (
-              <span>
-                <FolderOutlined /> Browser
-              </span>
+              <>
+                <FolderOutlined />
+                Browser
+              </>
             ),
             key: 'browser',
           },
           {
             label: (
-              <span>
-                <UnorderedListOutlined /> List
-              </span>
+              <>
+                <UnorderedListOutlined />
+                Objects
+              </>
             ),
-            key: 'list',
+            key: 'objects',
           },
         ]}
         activeKey={activeKey}
         onChange={(value) => {
           if (value === activeKey) return;
           switch (value) {
-            case 'list':
-              return navigate(`/bucket/${bucketName}`, { relative: 'route' });
+            case 'objects':
+              return navigate(
+                {
+                  pathname: `/bucket/${bucketName}`,
+                  search: createSearchParams(
+                    withProfileNameParam({})
+                  ).toString(),
+                },
+                { relative: 'route' }
+              );
             case 'browser':
-              return navigate(`/bucket/${bucketName}/browser`, {
-                relative: 'route',
-              });
+              return navigate(
+                {
+                  pathname: `/bucket/${bucketName}/browser`,
+                  search: createSearchParams(
+                    withProfileNameParam({})
+                  ).toString(),
+                },
+                {
+                  relative: 'route',
+                }
+              );
             default:
               return;
           }

@@ -16,6 +16,7 @@ import BucketObjectsBrowser, {
   BucketObjectsBrowserLoading,
 } from './BucketObjectsBrowser';
 import ErrorBoundary from './components/ErrorBoundary';
+import ProfilePicker from './components/ProfilePicker';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,23 @@ const router = createBrowserRouter([
     ErrorBoundary,
     element: (
       <>
-        <Breadcrumb />
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            padding: '4px 0',
+            backgroundColor: 'white',
+            zIndex: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Breadcrumb />
+          <ProfilePicker />
+        </div>
         <div style={{ paddingRight: 24, paddingLeft: 24 }}>
           <Suspense fallback={<PageLoading />}>
             <Outlet />
