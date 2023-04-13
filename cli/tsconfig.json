@@ -1,0 +1,9 @@
+{
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "jsx": "react-jsx",
+    "outDir": "dist"
+  }
+}

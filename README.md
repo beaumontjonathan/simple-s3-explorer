@@ -15,7 +15,7 @@ Listed below are the known working versions I'm running locally.
 If your versions differ, [`nvm`](https://github.com/nvm-sh/nvm) is a great tool for trying out other Node.JS versions, and the `pnpm` installation is [here](https://pnpm.io/installation).
 
 - `node` - 18.11.0
-- `pnpm` - 7.29.2
+- `pnpm` - 8.2.0
 
 ### Setup
 
@@ -43,6 +43,21 @@ The AWS profile used by the app can be configured by setting `AWS_PROFILE` envir
 
 ```sh
 $ AWS_PROFILE=my-secondary-profile pnpm start
+```
+
+## Terminal UI
+
+There is an experimental, incomplete Terminal UI (tui) powered by
+[ink](https://github.com/vadimdemedes/ink).
+
+This is unfinished & try at your own risk.
+
+### Usage
+
+To start the tui in dev mode, run thr following.
+
+```sh
+$ pnpm --filter cli run start:dev
 ```
 
 ## TODO

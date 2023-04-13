@@ -7,10 +7,19 @@ import ObjectMetadataTable, {
 import ObjectTagsTable, { ObjectTagsTableLoading } from './ObjectTagsTable';
 import { formatBytes, useProfileName } from '../helpers';
 import { ObjectPropertiesObject_bucket$key } from '../__generated__/ObjectPropertiesObject_bucket.graphql';
-import { ReactNode, Suspense } from 'react';
+import { PropsWithChildren, ReactNode, Suspense } from 'react';
 import { ObjectPropertiesQuery } from '../__generated__/ObjectPropertiesQuery.graphql';
 import SkeletonText from './SkeletonText';
 import { ObjectNotFoundError } from '../errors';
+
+function Section({ title, children }: PropsWithChildren<{ title: string }>) {
+  return (
+    <section>
+      <Typography.Title level={3}>{title}</Typography.Title>
+      {children}
+    </section>
+  );
+}
 
 type ObjectDescriptionsProps = {
   objectKey: string;
@@ -80,18 +89,16 @@ function Inner({
         storageClass={object.storageClass}
         lastModified={object.lastModified}
       />
-      <section>
-        <Typography.Title level={3}>Tags</Typography.Title>
+      <Section title="Tags">
         <Suspense fallback={<ObjectTagsTableLoading />}>
           <ObjectTagsTable object={object} />
         </Suspense>
-      </section>
-      <section>
-        <Typography.Title level={3}>Metadata</Typography.Title>
+      </Section>
+      <Section title="Metadata">
         <Suspense fallback={<ObjectMetadataTableLoading />}>
           <ObjectMetadataTable object={object} />
         </Suspense>
-      </section>
+      </Section>
     </>
   );
 }
@@ -121,19 +128,29 @@ export default function ObjectProperties({ bucketName, objectKey }: Props) {
 
   return (
     <>
-      <Suspense
-        fallback={
-          <ObjectDescriptions
-            objectKey={objectKey}
-            size={<SkeletonText />}
-            etag={<SkeletonText />}
-            storageClass={<SkeletonText />}
-            lastModified={<SkeletonText />}
-          />
-        }
-      >
+      <Suspense fallback={<ObjectPropertiesLoading objectKey={objectKey} />}>
         <Inner bucket={bucket} bucketName={bucketName} objectKey={objectKey} />
       </Suspense>
+    </>
+  );
+}
+
+export function ObjectPropertiesLoading({ objectKey }: { objectKey: string }) {
+  return (
+    <>
+      <ObjectDescriptions
+        objectKey={objectKey}
+        size={<SkeletonText />}
+        etag={<SkeletonText />}
+        storageClass={<SkeletonText />}
+        lastModified={<SkeletonText />}
+      />
+      <Section title="Tags">
+        <ObjectTagsTableLoading />
+      </Section>
+      <Section title="Metadata">
+        <ObjectMetadataTableLoading />
+      </Section>
     </>
   );
 }

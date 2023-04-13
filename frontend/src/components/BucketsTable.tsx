@@ -62,19 +62,11 @@ export default function BucketsTable({ query }: Props) {
       size="small"
       columns={columns(withProfileNameParam)}
       dataSource={buckets}
-      // pagination={false}
     />
   );
 }
 
 export function BucketsTableLoading() {
   const withProfileNameParam = useWithProfileNameParam();
-  return (
-    <Table
-      size="small"
-      columns={columns(withProfileNameParam)}
-      loading
-      // pagination={false}
-    />
-  );
+  return <Table size="small" columns={columns(withProfileNameParam)} loading />;
 }

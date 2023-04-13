@@ -147,6 +147,7 @@ export default function BucketObjectsBrowser() {
   return (
     <Table
       pagination={false}
+      size="small"
       columns={columns(bucketName, prefix, withProfileNameParam)}
       dataSource={[...bucket.prefix.commonPrefixes, ...bucket.prefix.objects]}
     />
@@ -160,6 +161,7 @@ export function BucketObjectsBrowserLoading() {
   return (
     <Table
       pagination={false}
+      size="small"
       columns={columns(bucketName, prefix, withProfileNameParam)}
       loading
     />

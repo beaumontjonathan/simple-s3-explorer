@@ -2,7 +2,9 @@ import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { Typography } from 'antd';
 import ObjectDownloadButton from './components/ObjectDownloadButton';
-import ObjectProperties from './components/ObjectProperties';
+import ObjectProperties, {
+  ObjectPropertiesLoading,
+} from './components/ObjectProperties';
 import { Suspense } from 'react';
 import PageLoading from './components/PageLoading';
 
@@ -42,7 +44,9 @@ export default function BucketObject() {
           {title}
           <ObjectDownloadButton bucketName={bucketName} objectKey={objectKey} />
         </div>
-        <ObjectProperties bucketName={bucketName} objectKey={objectKey} />
+        <Suspense fallback={<ObjectPropertiesLoading objectKey={objectKey} />}>
+          <ObjectProperties bucketName={bucketName} objectKey={objectKey} />
+        </Suspense>
       </Suspense>
     </>
   );
