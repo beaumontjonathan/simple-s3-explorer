@@ -69,9 +69,6 @@ export default function StatusBar() {
 
   return (
     <Box width="100%" flexGrow={0} overflowY="hidden" flexDirection="row">
-      {/* <Text backgroundColor={isFocused ? 'blue' : 'green'}>
-        {'hello'}
-      </Text> */}
       {actions.map((action, index) => (
         <Fragment key={action}>
           <Text backgroundColor={backgroundColor}> </Text>

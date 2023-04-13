@@ -17,8 +17,6 @@ export default function Skeleton({ title, children }: Props) {
     <Box
       width="100%"
       height={rows}
-      // alignItems="center"
-      // justifyContent="center"
       flexDirection="column"
     >
       <Box flexDirection="row" justifyContent="space-between" width="100%">

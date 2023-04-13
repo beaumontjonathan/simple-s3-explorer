@@ -7,15 +7,7 @@ import {
   RecordSource,
   Store,
 } from 'relay-runtime';
-import relay from 'react-relay';
 import fetch from 'node-fetch';
-
-// const {
-//   Environment,
-//   Network,
-//   Store,
-//   RecordSource,
-// } = relay;
 
 async function fetchQuery(
   params: RequestParameters,
