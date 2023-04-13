@@ -9,7 +9,6 @@ import {
   FetchFunction,
   Observable,
 } from 'relay-runtime';
-import parseHeaders from 'parse-headers';
 import { DeepMerger } from './deep-merger';
 
 async function fetchQuery(

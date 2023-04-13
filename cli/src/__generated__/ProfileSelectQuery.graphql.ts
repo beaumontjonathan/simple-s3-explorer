@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<95d77d3dc9165691308b27f74749e45e>>
+ * @generated SignedSource<<e0e1ce74e379093860104f7c9714742f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,15 +9,15 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type ProfilePickerQuery$variables = {};
-export type ProfilePickerQuery$data = {
+export type ProfileSelectQuery$variables = {};
+export type ProfileSelectQuery$data = {
   readonly profiles: ReadonlyArray<{
     readonly name: string | null;
   }>;
 };
-export type ProfilePickerQuery = {
-  response: ProfilePickerQuery$data;
-  variables: ProfilePickerQuery$variables;
+export type ProfileSelectQuery = {
+  response: ProfileSelectQuery$data;
+  variables: ProfileSelectQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -46,7 +46,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "ProfilePickerQuery",
+    "name": "ProfileSelectQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -55,20 +55,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "ProfilePickerQuery",
+    "name": "ProfileSelectQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "9814994195cdb2a80536a14afb1bacb3",
+    "cacheID": "cffc32c8dcf102224185c0c6c6d29456",
     "id": null,
     "metadata": {},
-    "name": "ProfilePickerQuery",
+    "name": "ProfileSelectQuery",
     "operationKind": "query",
-    "text": "query ProfilePickerQuery {\n  profiles {\n    name\n  }\n}\n"
+    "text": "query ProfileSelectQuery {\n  profiles {\n    name\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "07e1fdc91e8672f3667db58e4654959e";
+(node as any).hash = "2b0daf568156e3cbfc0fa6c49751c390";
 
 export default node;

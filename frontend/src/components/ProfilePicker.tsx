@@ -25,7 +25,6 @@ export default function ProfilePicker() {
         selectable: true,
         selectedKeys: [profileName],
         onSelect: (info) => {
-          console.log(info);
           setProfileName({ profileName: info.selectedKeys[0] });
         },
         items: profiles.map(({ name }) => ({
